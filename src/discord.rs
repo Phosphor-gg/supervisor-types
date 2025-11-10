@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct GetGuildsRequest {
-    pub user_discord_id: String,
-    pub guild_ids: Option<Vec<String>>,
+pub struct DiscordDataRequest {
+    pub user_info: UserInfo,
+    pub admin_guild_ids: Option<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -79,14 +79,8 @@ pub struct GetAdminsResponse {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct OwnerInfo {
-    pub discord_id: String,
-    pub username: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct GetOwnerResponse {
-    pub owner: OwnerInfo,
+    pub owner: UserInfo,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
