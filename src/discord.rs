@@ -123,8 +123,8 @@ pub struct GuildConfig {
     pub role_filter_mode: String,
     pub filtered_roles: Vec<String>,
     pub actions: Vec<ModerationAction>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub is_active: Option<bool>,
+    #[serde(default = "default_is_active")]
+    pub is_active: bool,
     #[serde(default = "default_model")]
     pub model: String,
     #[serde(rename = "alerts_channel_id")]
@@ -136,6 +136,10 @@ pub struct GuildConfig {
 }
 
 fn default_moderate_all_channels() -> bool {
+    true
+}
+
+fn default_is_active() -> bool {
     true
 }
 
@@ -185,7 +189,7 @@ impl Default for GuildConfig {
             role_filter_mode: "exclude".to_string(),
             filtered_roles: Vec::new(),
             actions: vec![ModerationAction::Delete],
-            is_active: None,
+            is_active: true,
             model: "observer".to_string(),
             alerts_channel: None,
             context_history_count: 5,
