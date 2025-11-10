@@ -18,8 +18,8 @@ pub struct GuildInfo {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct GetGuildsResponse {
-    pub guilds: Vec<GuildInfo>,
+pub struct DiscordDataResponse {
+    pub data: Vec<DiscordData>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
