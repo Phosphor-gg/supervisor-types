@@ -104,15 +104,12 @@ pub struct CheckAccountResponse {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ModerateRequest {
+pub struct DiscordModerateRequest {
     pub guild_id: String,
-    pub owner_discord_id: String,
     pub text: String,
     pub model: Option<String>,
     pub enabled_labels: Option<Vec<String>>,
-    pub message_history: Option<Vec<String>>,
-    #[serde(default)]
-    pub include_context: bool,
+    pub message_history: Option<Vec<String>>
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
