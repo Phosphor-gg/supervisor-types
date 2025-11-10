@@ -106,10 +106,7 @@ pub struct CheckAccountResponse {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordModerateRequest {
     pub guild_id: String,
-    pub text: String,
-    pub model: Option<String>,
-    pub enabled_labels: Option<Vec<String>>,
-    pub message_history: Option<Vec<String>>
+    pub text: String
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
