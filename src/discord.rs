@@ -6,12 +6,15 @@ pub struct GetGuildsRequest {
     pub guild_ids: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct GuildInfo {
     pub id: String,
     pub name: String,
     pub owner_id: String,
     pub icon: Option<String>,
+    pub channels: Vec<ChannelInfo>,
+    pub roles: Vec<RoleInfo>,
+    pub admins: Vec<AdminInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -19,7 +22,7 @@ pub struct GetGuildsResponse {
     pub guilds: Vec<GuildInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ChannelInfo {
     pub id: String,
     pub name: String,
@@ -31,7 +34,7 @@ pub struct GetChannelsResponse {
     pub channels: Vec<ChannelInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RoleInfo {
     pub id: String,
     pub name: String,
@@ -44,8 +47,26 @@ pub struct GetRolesResponse {
     pub roles: Vec<RoleInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AdminInfo {
+    pub user_info: UserInfo,
+    pub is_opted_in: bool,
+    pub subscription_tier: String,
+    pub has_account: bool,
+}
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct AdminConfig {
+    pub is_opted_in: bool
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct AdminData {
+    pub admin_info: AdminInfo,
+    pub admin_config: AdminConfig,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct UserInfo {
     pub discord_id: String,
     pub username: String,
     pub is_owner: bool,
@@ -107,21 +128,23 @@ pub struct ModerateResponse {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordData {
+    pub guild_info: GuildInfo,
+    pub guild_config: GuildConfig,
+    pub admin_data: Vec<AdminData>
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GuildConfig {
-    pub guild_id: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub guild_name: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub guild_icon: Option<String>,
     #[serde(default = "default_moderate_all_channels")]
     pub moderate_all_channels: bool,
-    pub moderated_channels: Vec<String>,
+    pub moderated_channels: Vec<ChannelInfo>,
     pub enabled_labels: Vec<String>,
     #[serde(default = "default_moderate_all_roles")]
     pub moderate_all_roles: bool,
     #[serde(default = "default_role_filter_mode")]
     pub role_filter_mode: String,
-    pub filtered_roles: Vec<String>,
+    pub filtered_roles: Vec<RoleInfo>,
     pub actions: Vec<ModerationAction>,
     #[serde(default = "default_is_active")]
     pub is_active: bool,
@@ -170,9 +193,6 @@ pub enum ModerationAction {
 impl Default for GuildConfig {
     fn default() -> Self {
         Self {
-            guild_id: String::new(),
-            guild_name: None,
-            guild_icon: None,
             moderate_all_channels: true,
             moderated_channels: Vec::new(),
             enabled_labels: vec![
