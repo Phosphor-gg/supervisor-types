@@ -1,1 +1,1 @@
-mod discord;
+pub mod discord;
