@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetGuildsRequest {
     pub user_discord_id: String,
     pub guild_ids: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GuildInfo {
     pub id: String,
     pub name: String,
@@ -14,24 +14,24 @@ pub struct GuildInfo {
     pub icon: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetGuildsResponse {
     pub guilds: Vec<GuildInfo>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ChannelInfo {
     pub id: String,
     pub name: String,
     pub channel_type: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetChannelsResponse {
     pub channels: Vec<ChannelInfo>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RoleInfo {
     pub id: String,
     pub name: String,
@@ -39,12 +39,12 @@ pub struct RoleInfo {
     pub position: u16,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetRolesResponse {
     pub roles: Vec<RoleInfo>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct AdminInfo {
     pub discord_id: String,
     pub username: String,
@@ -52,18 +52,18 @@ pub struct AdminInfo {
     pub avatar: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetAdminsResponse {
     pub admins: Vec<AdminInfo>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct OwnerInfo {
     pub discord_id: String,
     pub username: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GetOwnerResponse {
     pub owner: OwnerInfo,
 }
@@ -74,7 +74,7 @@ pub struct CheckAccountRequest {
     pub owner_discord_id: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CheckAccountResponse {
     pub has_account: bool,
     #[allow(dead_code)]
@@ -94,7 +94,7 @@ pub struct ModerateRequest {
     pub include_context: bool,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerateResponse {
     pub flagged: bool,
     pub labels: Vec<String>,
