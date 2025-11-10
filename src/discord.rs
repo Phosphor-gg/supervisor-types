@@ -122,10 +122,7 @@ pub struct GuildConfig {
     #[serde(default = "default_role_filter_mode")]
     pub role_filter_mode: String,
     pub filtered_roles: Vec<String>,
-    #[serde(rename = "action_on_flag")]
     pub actions: Vec<ModerationAction>,
-    #[serde(rename = "log_channel_id")]
-    pub log_channel: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_active: Option<bool>,
     #[serde(default = "default_model")]
@@ -188,7 +185,6 @@ impl Default for GuildConfig {
             role_filter_mode: "exclude".to_string(),
             filtered_roles: Vec::new(),
             actions: vec![ModerationAction::Delete],
-            log_channel: None,
             is_active: None,
             model: "observer".to_string(),
             alerts_channel: None,
