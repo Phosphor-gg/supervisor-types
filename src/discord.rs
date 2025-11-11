@@ -100,7 +100,7 @@ pub struct CheckAccountResponse {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordModerateRequest {
-    pub guild_id: String,
+    pub guild_info: GuildInfo,
     pub text: String,
 }
 
