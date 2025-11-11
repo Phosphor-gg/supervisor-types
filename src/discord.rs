@@ -1,10 +1,11 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildInfoRequest {
     pub user_info: UserInfo,
     pub admin_guild_ids: Vec<String>,
-    pub current_admin_ids: Vec<String>,
+    pub guild_admin_ids: HashMap<String, String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
