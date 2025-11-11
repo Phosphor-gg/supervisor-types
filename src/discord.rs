@@ -20,7 +20,7 @@ pub struct GuildInfo {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildInfoResponse {
-    pub data: Vec<DiscordData>,
+    pub guilds: Vec<GuildInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
