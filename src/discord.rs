@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct DiscordDataRequest {
+pub struct GuildInfoRequest {
     pub user_info: UserInfo,
-    pub admin_guild_ids: Option<Vec<String>>,
+    pub admin_guild_ids: Vec<String>,
+    pub current_admin_ids: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -14,11 +15,11 @@ pub struct GuildInfo {
     pub icon: Option<String>,
     pub channels: Vec<ChannelInfo>,
     pub roles: Vec<RoleInfo>,
-    pub admins: Vec<AdminInfo>,
+    pub admins: Vec<UserInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct DiscordDataResponse {
+pub struct GuildInfoResponse {
     pub data: Vec<DiscordData>,
 }
 
@@ -50,13 +51,12 @@ pub struct GetRolesResponse {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AdminInfo {
     pub user_info: UserInfo,
-    pub is_opted_in: bool,
     pub subscription_tier: String,
     pub has_account: bool,
 }
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AdminConfig {
-    pub is_opted_in: bool
+    pub is_opted_in: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -100,7 +100,7 @@ pub struct CheckAccountResponse {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordModerateRequest {
     pub guild_id: String,
-    pub text: String
+    pub text: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -119,7 +119,7 @@ pub struct ModerateResponse {
 pub struct DiscordData {
     pub guild_info: GuildInfo,
     pub guild_config: GuildConfig,
-    pub admin_data: Vec<AdminData>
+    pub admin_data: Vec<AdminData>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
