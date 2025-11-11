@@ -2,10 +2,16 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct GuildInfoRequest {
+pub struct GuildsInfoRequest {
     pub user_info: UserInfo,
     pub admin_guild_ids: Vec<String>,
     pub guild_admin_ids: HashMap<String, Vec<String>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GuildInfoRequest {
+    pub user_info: UserInfo,
+    pub guild_admin_ids: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -20,7 +26,7 @@ pub struct GuildInfo {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct GuildInfoResponse {
+pub struct GuildsInfoResponse {
     pub guilds: Vec<GuildInfo>,
 }
 
