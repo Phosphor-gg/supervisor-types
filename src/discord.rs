@@ -123,6 +123,11 @@ pub struct ModerateResponse {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordDataResponse {
+    pub discord_data: Vec<DiscordData>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordData {
     pub guild_info: GuildInfo,
     pub guild_config: GuildConfig,
