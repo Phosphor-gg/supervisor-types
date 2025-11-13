@@ -14,7 +14,7 @@ pub struct GuildInfoRequest {
     pub guild_admin_ids: Vec<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct GuildInfo {
     pub id: String,
     pub name: String,
@@ -30,7 +30,7 @@ pub struct GuildsInfoResponse {
     pub guilds: Vec<GuildInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct ChannelInfo {
     pub id: String,
     pub name: String,
@@ -42,7 +42,7 @@ pub struct GetChannelsResponse {
     pub channels: Vec<ChannelInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct RoleInfo {
     pub id: String,
     pub name: String,
@@ -55,24 +55,24 @@ pub struct GetRolesResponse {
     pub roles: Vec<RoleInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct AdminInfo {
     pub user_info: UserInfo,
     pub subscription_tier: String,
     pub has_account: bool,
 }
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct AdminConfig {
     pub is_opted_in: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct AdminData {
     pub admin_info: AdminInfo,
     pub admin_config: AdminConfig,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct UserInfo {
     pub discord_id: String,
     pub username: String,
@@ -127,14 +127,14 @@ pub struct DiscordDataResponse {
     pub discord_data: Vec<DiscordData>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct DiscordData {
     pub guild_info: GuildInfo,
     pub guild_config: GuildConfig,
     pub admin_data: Vec<AdminData>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct GuildConfig {
     #[serde(default = "default_moderate_all_channels")]
     pub moderate_all_channels: bool,
