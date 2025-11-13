@@ -72,7 +72,7 @@ pub struct AdminData {
     pub admin_config: AdminConfig,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct DiscordStatusResponse {
     pub discord_id: Option<String>,
     pub email: Option<String>,
