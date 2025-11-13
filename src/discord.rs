@@ -143,7 +143,7 @@ pub struct ModerateResponse {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordDataResponse {
-    pub discord_data: Vec<DiscordData>,
+    pub discord_data: HashMap<String, DiscordData>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
