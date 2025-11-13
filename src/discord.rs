@@ -72,6 +72,25 @@ pub struct AdminData {
     pub admin_config: AdminConfig,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct DiscordStatusResponse {
+    pub discord_id: Option<String>,
+    pub email: Option<String>,
+    pub username: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Claims {
+    pub sub: String, // user UUID
+    pub email: String,
+    pub discord_id: Option<String>,
+    pub username: Option<String>,    // Discord username
+    pub global_name: Option<String>, // Discord display name
+    pub avatar: Option<String>,      // Discord avatar hash
+    pub exp: usize,                  // expiration time
+    pub iat: usize,                  // issued at
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct UserInfo {
     pub discord_id: String,
