@@ -20,9 +20,9 @@ pub struct GuildInfo {
     pub name: String,
     pub owner_id: String,
     pub icon: Option<String>,
-    pub channels: Vec<ChannelInfo>,
-    pub roles: Vec<RoleInfo>,
-    pub admins: Vec<UserInfo>,
+    pub channels: HashMap<String, ChannelInfo>,
+    pub roles: HashMap<String, RoleInfo>,
+    pub admins: HashMap<String, UserInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
