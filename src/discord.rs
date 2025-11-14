@@ -150,7 +150,7 @@ pub struct DiscordDataResponse {
 pub struct DiscordData {
     pub guild_info: GuildInfo,
     pub guild_config: GuildConfig,
-    pub admin_data: Vec<AdminData>,
+    pub admin_data: HashMap<String, AdminData>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
