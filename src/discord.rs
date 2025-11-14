@@ -157,13 +157,13 @@ pub struct DiscordData {
 pub struct GuildConfig {
     #[serde(default = "default_moderate_all_channels")]
     pub moderate_all_channels: bool,
-    pub moderated_channels: Vec<ChannelInfo>,
+    pub moderated_channels: HashMap<String, ChannelInfo>,
     pub enabled_labels: Vec<String>,
     #[serde(default = "default_moderate_all_roles")]
     pub moderate_all_roles: bool,
     #[serde(default = "default_role_filter_mode")]
     pub role_filter_mode: String,
-    pub filtered_roles: Vec<RoleInfo>,
+    pub filtered_roles: HashMap<String, RoleInfo>,
     pub actions: Vec<ModerationAction>,
     #[serde(default = "default_is_active")]
     pub is_active: bool,
