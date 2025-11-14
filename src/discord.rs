@@ -213,7 +213,7 @@ impl Default for GuildConfig {
     fn default() -> Self {
         Self {
             moderate_all_channels: true,
-            moderated_channels: Vec::new(),
+            moderated_channels: HashMap::new(),
             enabled_labels: vec![
                 "S".to_string(),
                 "H".to_string(),
@@ -226,7 +226,7 @@ impl Default for GuildConfig {
             ],
             moderate_all_roles: true,
             role_filter_mode: "exclude".to_string(),
-            filtered_roles: Vec::new(),
+            filtered_roles: HashMap::new(),
             actions: vec![ModerationAction::Delete],
             is_active: true,
             model: "observer".to_string(),
