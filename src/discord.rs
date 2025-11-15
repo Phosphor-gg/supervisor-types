@@ -287,3 +287,19 @@ impl std::fmt::Display for ModerationLabel {
         }
     }
 }
+
+impl ModerationLabel {
+    pub fn to_name(&self) -> &str {
+        match self {
+            ModerationLabel::S => "Sexual",
+            ModerationLabel::H => "Harassment",
+            ModerationLabel::V => "Violence",
+            ModerationLabel::HR => "Hate/Racism",
+            ModerationLabel::SH => "Self-Harm",
+            ModerationLabel::S3 => "Sexual (Severe/Minors)",
+            ModerationLabel::SP => "Spam",
+            ModerationLabel::T => "Toxicity",
+            ModerationLabel::SE => "Sensitive Content",
+        }
+    }
+}
