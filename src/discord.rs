@@ -271,3 +271,19 @@ impl std::fmt::Display for ModerationAction {
         }
     }
 }
+
+impl std::fmt::Display for ModerationLabel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ModerationLabel::S => write!(f, "S"),
+            ModerationLabel::T => write!(f, "T"),
+            ModerationLabel::H => write!(f, "H"),
+            ModerationLabel::V => write!(f, "V"),
+            ModerationLabel::HR => write!(f, "HR"),
+            ModerationLabel::SH => write!(f, "SH"),
+            ModerationLabel::S3 => write!(f, "S3"),
+            ModerationLabel::SP => write!(f, "SP"),
+            ModerationLabel::SE => write!(f, "SE"),
+        }
+    }
+}
