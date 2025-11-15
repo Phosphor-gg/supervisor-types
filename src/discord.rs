@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildsInfoRequest {
@@ -158,13 +158,13 @@ pub struct GuildConfig {
     #[serde(default = "default_moderate_all_channels")]
     pub moderate_all_channels: bool,
     pub moderated_channels: HashMap<String, ChannelInfo>,
-    pub enabled_labels: Vec<String>,
+    pub enabled_labels: HashSet<ModerationLabel>,
     #[serde(default = "default_moderate_all_roles")]
     pub moderate_all_roles: bool,
     #[serde(default = "default_role_filter_mode")]
     pub role_filter_mode: String,
     pub filtered_roles: HashMap<String, RoleInfo>,
-    pub actions: Vec<ModerationAction>,
+    pub actions: HashSet<ModerationAction>,
     #[serde(default = "default_is_active")]
     pub is_active: bool,
     #[serde(default = "default_model")]
@@ -201,7 +201,7 @@ fn default_context_history_count() -> i32 {
     5
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum ModerationAction {
     Delete,
@@ -209,25 +209,38 @@ pub enum ModerationAction {
     Warn,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
+pub enum ModerationLabel {
+    S,
+    H,
+    V,
+    HR,
+    SH,
+    S3,
+    SP,
+    SE,
+    T,
+}
+
 impl Default for GuildConfig {
     fn default() -> Self {
         Self {
             moderate_all_channels: true,
             moderated_channels: HashMap::new(),
-            enabled_labels: vec![
-                "S".to_string(),
-                "H".to_string(),
-                "V".to_string(),
-                "HR".to_string(),
-                "SH".to_string(),
-                "S3".to_string(),
-                "SP".to_string(),
-                "SE".to_string(),
-            ],
+            enabled_labels: HashSet::from([
+                ModerationLabel::S,
+                ModerationLabel::H,
+                ModerationLabel::V,
+                ModerationLabel::HR,
+                ModerationLabel::SH,
+                ModerationLabel::S3,
+                ModerationLabel::SP,
+                ModerationLabel::SE,
+            ]),
             moderate_all_roles: true,
             role_filter_mode: "exclude".to_string(),
             filtered_roles: HashMap::new(),
-            actions: vec![ModerationAction::Delete],
+            actions: HashSet::from([ModerationAction::Delete]),
             is_active: true,
             model: "observer".to_string(),
             alerts_channel: None,
