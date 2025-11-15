@@ -132,13 +132,13 @@ pub struct DiscordModerateRequest {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerateResponse {
     pub flagged: bool,
-    pub labels: Vec<String>,
-    pub scores: std::collections::HashMap<String, f32>,
+    pub labels: Vec<ModerationLabel>,
+    pub scores: std::collections::HashMap<ModerationLabel, f32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[allow(dead_code)]
-    pub context_labels: Option<Vec<String>>,
+    pub context_labels: Option<Vec<ModerationLabel>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
