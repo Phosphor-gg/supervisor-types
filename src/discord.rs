@@ -302,4 +302,17 @@ impl ModerationLabel {
             ModerationLabel::SE => "Sensitive Content",
         }
     }
+
+    pub fn all_labels() -> Vec<ModerationLabel> {
+        vec![
+            ModerationLabel::S,
+            ModerationLabel::H,
+            ModerationLabel::V,
+            ModerationLabel::HR,
+            ModerationLabel::SH,
+            ModerationLabel::S3,
+            ModerationLabel::SP,
+            ModerationLabel::SE,
+        ]
+    }
 }
