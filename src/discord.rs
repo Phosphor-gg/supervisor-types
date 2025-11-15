@@ -162,7 +162,7 @@ pub struct GuildConfig {
     #[serde(default = "default_moderate_all_roles")]
     pub moderate_all_roles: bool,
     #[serde(default = "default_role_filter_mode")]
-    pub role_filter_mode: String,
+    pub role_filter_mode: RoleFilterMode,
     pub filtered_roles: HashMap<String, RoleInfo>,
     pub actions: HashSet<ModerationAction>,
     #[serde(default = "default_is_active")]
@@ -174,6 +174,7 @@ pub struct GuildConfig {
     pub alerts_channel: Option<String>,
     #[serde(default = "default_context_history_count")]
     pub context_history_count: i32,
+    #[serde(default = "default_enable_context")]
     pub enable_context: bool,
 }
 
@@ -189,8 +190,12 @@ fn default_moderate_all_roles() -> bool {
     true
 }
 
-fn default_role_filter_mode() -> String {
-    "exclude".to_string()
+fn default_enable_context() -> bool {
+    false
+}
+
+fn default_role_filter_mode() -> RoleFilterMode {
+    RoleFilterMode::Exclude
 }
 
 fn default_model() -> String {
@@ -222,10 +227,17 @@ pub enum ModerationLabel {
     T,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[serde(rename_all = "lowercase")]
+pub enum RoleFilterMode {
+    Include,
+    Exclude,
+}
+
 impl Default for GuildConfig {
     fn default() -> Self {
         Self {
-            moderate_all_channels: true,
+            moderate_all_channels: default_moderate_all_channels(),
             moderated_channels: HashMap::new(),
             enabled_labels: HashSet::from([
                 ModerationLabel::S,
@@ -237,15 +249,15 @@ impl Default for GuildConfig {
                 ModerationLabel::SP,
                 ModerationLabel::SE,
             ]),
-            moderate_all_roles: true,
-            role_filter_mode: "exclude".to_string(),
+            moderate_all_roles: default_moderate_all_roles(),
+            role_filter_mode: default_role_filter_mode(),
             filtered_roles: HashMap::new(),
             actions: HashSet::from([ModerationAction::Delete]),
-            is_active: true,
-            model: "observer".to_string(),
+            is_active: default_is_active(),
+            model: default_model(),
             alerts_channel: None,
-            context_history_count: 5,
-            enable_context: false,
+            context_history_count: default_context_history_count(),
+            enable_context: default_enable_context(),
         }
     }
 }
