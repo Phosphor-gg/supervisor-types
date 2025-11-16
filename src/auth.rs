@@ -27,3 +27,12 @@ pub struct DeletionCallbackQuery {
     pub code: String,
     pub state: String,
 }
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LinkDiscordQuery {
+    pub token: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OAuthInitiateResponse {
+    pub auth_url: String,
+}
