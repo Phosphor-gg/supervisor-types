@@ -1,6 +1,16 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ModerationRequest {
+    text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    model: Option<ModerationModel>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    enabled_labels: Option<Vec<ModerationLabel>>,
+    #[serde(default)]
+    include_context: bool,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerateResponse {
     pub flagged: bool,
     pub labels: Vec<ModerationLabel>,
