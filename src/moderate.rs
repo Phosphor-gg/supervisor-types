@@ -1,3 +1,4 @@
+use std::str::FromStr;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -65,6 +66,38 @@ impl std::fmt::Display for ModerationLabel {
             ModerationLabel::S3 => write!(f, "S3"),
             ModerationLabel::SP => write!(f, "SP"),
             ModerationLabel::SE => write!(f, "SE"),
+        }
+    }
+}
+
+impl FromStr for ModerationLabel {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<ModerationLabel, Self::Err> {
+        match input {
+            "S" => Ok(ModerationLabel::S),
+            "H" => Ok(ModerationLabel::H),
+            "V" => Ok(ModerationLabel::V),
+            "HR" => Ok(ModerationLabel::HR),
+            "SH" => Ok(ModerationLabel::SH),
+            "S3" => Ok(ModerationLabel::S3),
+            "SP" => Ok(ModerationLabel::SP),
+            "SE" => Ok(ModerationLabel::SE),
+            "T" => Ok(ModerationLabel::T),
+            _ => Err(()),
+        }
+    }
+}
+
+impl FromStr for ModerationModel {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<ModerationModel, Self::Err> {
+        match input.to_lowercase().as_str() {
+            "observer" => Ok(ModerationModel::Observer),
+            "sentinel" => Ok(ModerationModel::Sentinel),
+            "arbiter" => Ok(ModerationModel::Arbiter),
+            _ => Err(()),
         }
     }
 }

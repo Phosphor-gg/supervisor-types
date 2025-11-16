@@ -1,6 +1,7 @@
 use crate::moderate::{ModerationLabel, ModerationModel};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
+use std::str::FromStr;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildsInfoRequest {
@@ -202,6 +203,31 @@ impl Default for GuildConfig {
             alerts_channel: None,
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
+        }
+    }
+}
+
+impl FromStr for ModerationAction {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<ModerationAction, Self::Err> {
+        match input {
+            "delete" => Ok(ModerationAction::Delete),
+            "timeout" => Ok(ModerationAction::Timeout),
+            "warn" => Ok(ModerationAction::Warn),
+            _ => Err(()),
+        }
+    }
+}
+
+impl FromStr for RoleFilterMode {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<RoleFilterMode, Self::Err> {
+        match input {
+            "include" => Ok(RoleFilterMode::Include),
+            "exclude" => Ok(RoleFilterMode::Exclude),
+            _ => Err(()),
         }
     }
 }
