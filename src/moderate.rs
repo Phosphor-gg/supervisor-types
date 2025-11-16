@@ -47,9 +47,9 @@ pub enum ModerationModel {
 impl std::fmt::Display for ModerationModel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ModerationModel::Observer => write!(f, "Observer"),
-            ModerationModel::Sentinel => write!(f, "Sentinel"),
-            ModerationModel::Arbiter => write!(f, "Arbiter"),
+            ModerationModel::Observer => write!(f, "observer"),
+            ModerationModel::Sentinel => write!(f, "sentinel"),
+            ModerationModel::Arbiter => write!(f, "arbiter"),
         }
     }
 }
@@ -98,6 +98,24 @@ impl FromStr for ModerationModel {
             "sentinel" => Ok(ModerationModel::Sentinel),
             "arbiter" => Ok(ModerationModel::Arbiter),
             _ => Err(()),
+        }
+    }
+}
+
+impl ModerationModel {
+    pub fn all_models() -> Vec<ModerationModel> {
+        vec![
+            ModerationModel::Observer,
+            ModerationModel::Sentinel,
+            ModerationModel::Arbiter,
+        ]
+    }
+
+    pub fn credits_per_byte(&self) -> i64 {
+        match self {
+            ModerationModel::Observer => 1,
+            ModerationModel::Sentinel => 3,
+            ModerationModel::Arbiter => 9,
         }
     }
 }
