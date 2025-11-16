@@ -1,3 +1,4 @@
+use crate::moderate::{ModerationLabel, ModerationModel};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 
@@ -25,21 +26,11 @@ pub struct GuildInfo {
     pub admins: HashMap<String, UserInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct GuildsInfoResponse {
-    pub guilds: Vec<GuildInfo>,
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct ChannelInfo {
     pub id: String,
     pub name: String,
     pub channel_type: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct GetChannelsResponse {
-    pub channels: Vec<ChannelInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -48,11 +39,6 @@ pub struct RoleInfo {
     pub name: String,
     pub color: u32,
     pub position: u16,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct GetRolesResponse {
-    pub roles: Vec<RoleInfo>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -79,34 +65,12 @@ pub struct DiscordStatusResponse {
     pub username: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Claims {
-    pub sub: String, // user UUID
-    pub email: String,
-    pub discord_id: Option<String>,
-    pub username: Option<String>,    // Discord username
-    pub global_name: Option<String>, // Discord display name
-    pub avatar: Option<String>,      // Discord avatar hash
-    pub exp: usize,                  // expiration time
-    pub iat: usize,                  // issued at
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct UserInfo {
     pub discord_id: String,
     pub username: String,
     pub is_owner: bool,
     pub avatar: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct GetAdminsResponse {
-    pub admins: Vec<AdminInfo>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct GetOwnerResponse {
-    pub owner: UserInfo,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -127,18 +91,6 @@ pub struct CheckAccountResponse {
 pub struct DiscordModerateRequest {
     pub guild_info: GuildInfo,
     pub text: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ModerateResponse {
-    pub flagged: bool,
-    pub labels: Vec<ModerationLabel>,
-    pub scores: std::collections::HashMap<ModerationLabel, f32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub needs_context: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[allow(dead_code)]
-    pub context_labels: Option<Vec<ModerationLabel>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -168,7 +120,7 @@ pub struct GuildConfig {
     #[serde(default = "default_is_active")]
     pub is_active: bool,
     #[serde(default = "default_model")]
-    pub model: String,
+    pub model: ModerationModel,
     #[serde(rename = "alerts_channel_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub alerts_channel: Option<String>,
@@ -198,8 +150,8 @@ fn default_role_filter_mode() -> RoleFilterMode {
     RoleFilterMode::Exclude
 }
 
-fn default_model() -> String {
-    "observer".to_string()
+fn default_model() -> ModerationModel {
+    ModerationModel::Observer
 }
 
 fn default_context_history_count() -> i32 {
@@ -212,19 +164,6 @@ pub enum ModerationAction {
     Delete,
     Timeout,
     Warn,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
-pub enum ModerationLabel {
-    S,
-    H,
-    V,
-    HR,
-    SH,
-    S3,
-    SP,
-    SE,
-    T,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -269,50 +208,5 @@ impl std::fmt::Display for ModerationAction {
             ModerationAction::Timeout => write!(f, "timeout"),
             ModerationAction::Warn => write!(f, "warn"),
         }
-    }
-}
-
-impl std::fmt::Display for ModerationLabel {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ModerationLabel::S => write!(f, "S"),
-            ModerationLabel::T => write!(f, "T"),
-            ModerationLabel::H => write!(f, "H"),
-            ModerationLabel::V => write!(f, "V"),
-            ModerationLabel::HR => write!(f, "HR"),
-            ModerationLabel::SH => write!(f, "SH"),
-            ModerationLabel::S3 => write!(f, "S3"),
-            ModerationLabel::SP => write!(f, "SP"),
-            ModerationLabel::SE => write!(f, "SE"),
-        }
-    }
-}
-
-impl ModerationLabel {
-    pub fn to_name(&self) -> &str {
-        match self {
-            ModerationLabel::S => "Sexual",
-            ModerationLabel::H => "Harassment",
-            ModerationLabel::V => "Violence",
-            ModerationLabel::HR => "Hate/Racism",
-            ModerationLabel::SH => "Self-Harm",
-            ModerationLabel::S3 => "Sexual (Severe/Minors)",
-            ModerationLabel::SP => "Spam",
-            ModerationLabel::T => "Toxicity",
-            ModerationLabel::SE => "Sensitive Content",
-        }
-    }
-
-    pub fn all_labels() -> Vec<ModerationLabel> {
-        vec![
-            ModerationLabel::S,
-            ModerationLabel::H,
-            ModerationLabel::V,
-            ModerationLabel::HR,
-            ModerationLabel::SH,
-            ModerationLabel::S3,
-            ModerationLabel::SP,
-            ModerationLabel::SE,
-        ]
     }
 }
