@@ -13,3 +13,49 @@ pub struct UserProfileResponse {
     pub global_name: Option<String>,
     pub avatar: Option<String>,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UpdateSettingsRequest {
+    pub email: Option<String>,
+    pub notifications_enabled: Option<bool>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SettingsResponse {
+    pub user: UserProfile,
+    pub preferences: UserPreferences,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UserPreferences {
+    pub notifications_enabled: bool,
+    pub theme: String,
+    pub timezone: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DashboardOverviewResponse {
+    pub user: UserProfile,
+    pub stats: DashboardStats,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UserProfile {
+    pub id: String,
+    pub email: String,
+    pub discord_id: Option<String>,
+    pub created_at: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DashboardStats {
+    pub total_api_calls: u64,
+    pub api_calls_this_month: u64,
+    pub active_api_keys: u32,
+    pub subscription_usage: f64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ApplyReferralCodeRequest {
+    pub code: String,
+}

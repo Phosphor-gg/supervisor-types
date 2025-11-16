@@ -41,3 +41,30 @@ pub struct DiscordCallbackQuery {
     pub code: String,
     pub state: Option<String>,
 }
+
+#[derive(Debug, Serialize)]
+pub struct ApiKeyResponse {
+    pub id: String,
+    pub name: String,
+    pub key_preview: String,
+    pub status: String,
+    pub created_at: String,
+    pub last_used: Option<String>,
+    pub usage_count: i64,
+}
+
+#[derive(Debug, Serialize)]
+pub struct CreateApiKeyResponse {
+    pub id: String,
+    pub name: String,
+    pub full_key: String,
+    pub key_preview: String,
+    pub status: String,
+    pub created_at: String,
+    pub warning: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CreateApiKeyRequest {
+    pub name: String,
+}
