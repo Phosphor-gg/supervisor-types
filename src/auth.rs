@@ -36,3 +36,8 @@ pub struct LinkDiscordQuery {
 pub struct OAuthInitiateResponse {
     pub auth_url: String,
 }
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordCallbackQuery {
+    pub code: String,
+    pub state: Option<String>,
+}
