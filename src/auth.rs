@@ -11,3 +11,19 @@ pub struct Claims {
     pub exp: usize, // expiration time
     pub iat: usize, // issued at
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CallbackQuery {
+    pub code: String,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeletionInitiateResponse {
+    pub auth_url: String,
+    pub state: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DeletionCallbackQuery {
+    pub code: String,
+    pub state: String,
+}
