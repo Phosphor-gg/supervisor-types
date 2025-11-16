@@ -33,6 +33,16 @@ pub enum ModerationModel {
     Arbiter,
 }
 
+impl std::fmt::Display for ModerationModel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ModerationModel::Observer => write!(f, "Observer"),
+            ModerationModel::Sentinel => write!(f, "Sentinel"),
+            ModerationModel::Arbiter => write!(f, "Arbiter"),
+        }
+    }
+}
+
 impl std::fmt::Display for ModerationLabel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
