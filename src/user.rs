@@ -15,25 +15,6 @@ pub struct UserProfileResponse {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct UpdateSettingsRequest {
-    pub email: Option<String>,
-    pub notifications_enabled: Option<bool>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct SettingsResponse {
-    pub user: UserProfile,
-    pub preferences: UserPreferences,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct UserPreferences {
-    pub notifications_enabled: bool,
-    pub theme: String,
-    pub timezone: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct DashboardOverviewResponse {
     pub user: UserProfile,
     pub stats: DashboardStats,
