@@ -10,6 +10,11 @@ pub struct GuildsInfoRequest {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct GuildsInfoResponse {
+    pub guilds: Vec<GuildInfo>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GuildInfoRequest {
     pub discord_id: String,
     pub guild_admin_ids: Vec<String>,
