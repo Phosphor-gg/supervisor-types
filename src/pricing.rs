@@ -58,3 +58,50 @@ pub struct CreditsInfoResponse {
     pub remaining_this_month: i64,
     pub usage_percentage: f64,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CreateCheckoutSessionRequest {
+    pub tier: String,
+    pub billing_cycle: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CreateCheckoutSessionResponse {
+    pub checkout_url: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SubscriptionUpdateResponse {
+    pub success: bool,
+    pub message: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ChangePlanRequest {
+    pub tier: String,
+    pub billing_cycle: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PaymentMethodResponse {
+    pub last4: String,
+    pub brand: String,
+    pub exp_month: u32,
+    pub exp_year: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct BillingPortalResponse {
+    pub portal_url: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ToggleAutoRenewalRequest {
+    pub enable: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ToggleAutoRenewalResponse {
+    pub success: bool,
+    pub message: String,
+}
