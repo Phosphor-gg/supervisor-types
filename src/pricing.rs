@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt::Display;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -21,6 +22,7 @@ pub struct CreditTransaction {
     pub description: String,
     pub created_at: NaiveDateTime,
 }
+
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StripeSubscriptionInfo {
@@ -115,6 +117,45 @@ pub struct ToggleAutoRenewalRequest {
 pub struct ToggleAutoRenewalResponse {
     pub success: bool,
     pub message: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PriceInfo {
+    pub price_id: String,
+    pub product_id: String,
+    pub tier: Tier,
+    pub billing_cycle: BillingCycle,
+    pub amount: i64, // Amount in cents
+    pub currency: String,
+    pub payment_link: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FormattedPrice {
+    pub price_id: String,
+    pub amount_cents: i64,
+    pub amount_display: f64, // Amount in major currency units (e.g., dollars)
+    pub currency: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TierPricing {
+    pub tier: Tier,
+    pub prices: HashMap<String, FormattedPrice>, // billing_cycle -> price
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PricingData {
+    pub tiers: Vec<TierPricing>,
+    pub billing_cycles: Vec<BillingCycleInfo>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BillingCycleInfo {
+    pub cycle: BillingCycle,
+    pub display_name: String,
+    pub period_suffix: String,
+    pub discount_percentage: Option<i32>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Hash, Eq)]
