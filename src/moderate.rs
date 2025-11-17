@@ -1,9 +1,21 @@
+use std::fmt::Display;
 use std::str::FromStr;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerationRequest {
     pub text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<ModerationModel>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub enabled_labels: Option<Vec<ModerationLabel>>,
+    #[serde(default)]
+    pub include_context: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BatchModerationRequest {
+    pub texts: Vec<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<ModerationModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -19,7 +31,6 @@ pub struct ModerationResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    #[allow(dead_code)]
     pub context_labels: Option<Vec<ModerationLabel>>,
 }
 
@@ -44,7 +55,7 @@ pub enum ModerationModel {
     Arbiter,
 }
 
-impl std::fmt::Display for ModerationModel {
+impl Display for ModerationModel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ModerationModel::Observer => write!(f, "observer"),
@@ -54,7 +65,7 @@ impl std::fmt::Display for ModerationModel {
     }
 }
 
-impl std::fmt::Display for ModerationLabel {
+impl Display for ModerationLabel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ModerationLabel::S => write!(f, "S"),
