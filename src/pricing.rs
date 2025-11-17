@@ -50,6 +50,16 @@ impl StripeSubscriptionInfo {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SubscriptionInfo {
+    pub tier: String,
+    pub cycle: String,
+    pub price: f64,
+    pub expires_at: Option<NaiveDateTime>,
+    pub max_monthly_credits: i64,
+    pub is_active: bool
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreditsInfoResponse {
     pub balance: i64,
