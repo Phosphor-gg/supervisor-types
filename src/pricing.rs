@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -71,7 +72,7 @@ pub struct CreditsInfoResponse {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateCheckoutSessionRequest {
-    pub tier: String,
+    pub tier: Tier,
     pub billing_cycle: String,
 }
 
@@ -114,4 +115,136 @@ pub struct ToggleAutoRenewalRequest {
 pub struct ToggleAutoRenewalResponse {
     pub success: bool,
     pub message: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Tier {
+    Free,
+    Basic,
+    Standard,
+    Premium,
+}
+
+impl Display for Tier {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let tier_str = match self {
+            Tier::Free => "Free",
+            Tier::Basic => "Basic",
+            Tier::Standard => "Standard",
+            Tier::Premium => "Premium",
+        };
+        write!(f, "{}", tier_str)
+    }
+}
+
+impl From<String> for Tier {
+    fn from(s: String) -> Self {
+        match s.to_lowercase().as_str() {
+            "free" => Tier::Free,
+            "basic" => Tier::Basic,
+            "standard" => Tier::Standard,
+            "premium" => Tier::Premium,
+            _ => Tier::Free, // Default to Free for invalid values
+        }
+    }
+}
+
+impl From<&str> for Tier {
+    fn from(s: &str) -> Self {
+        match s.to_lowercase().as_str() {
+            "free" => Tier::Free,
+            "basic" => Tier::Basic,
+            "standard" => Tier::Standard,
+            "premium" => Tier::Premium,
+            _ => Tier::Free, // Default to Free for invalid values
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum BillingCycle {
+    Monthly,
+    Quarterly,
+    Annual,
+    Triennial,
+}
+
+impl BillingCycle {
+    pub fn period_suffix(&self) -> &str {
+        match self {
+            BillingCycle::Monthly => "month",
+            BillingCycle::Quarterly => "3 months",
+            BillingCycle::Annual => "year",
+            BillingCycle::Triennial => "3 years",
+        }
+    }
+    pub fn get_all_cycles() -> Vec<BillingCycle> {
+        vec![
+            BillingCycle::Monthly,
+            BillingCycle::Quarterly,
+            BillingCycle::Annual,
+            BillingCycle::Triennial,
+        ]
+    }
+    pub fn stripe_interval(&self) -> &'static str {
+        match self {
+            BillingCycle::Monthly => "month",
+            BillingCycle::Quarterly => "month",
+            BillingCycle::Annual => "year",
+            BillingCycle::Triennial => "year",
+        }
+    }
+
+    pub fn stripe_interval_count(&self) -> u32 {
+        match self {
+            BillingCycle::Monthly => 1,
+            BillingCycle::Quarterly => 3,
+            BillingCycle::Annual => 1,
+            BillingCycle::Triennial => 3,
+        }
+    }
+}
+
+impl Display for BillingCycle {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let cycle_str = match self {
+            BillingCycle::Monthly => "Monthly",
+            BillingCycle::Quarterly => "Quarterly",
+            BillingCycle::Annual => "Annual",
+            BillingCycle::Triennial => "Triennial",
+        };
+        write!(f, "{}", cycle_str)
+    }
+}
+
+impl From<String> for BillingCycle {
+    fn from(s: String) -> Self {
+        match s.to_lowercase().as_str() {
+            "monthly" => BillingCycle::Monthly,
+            "quarterly" => BillingCycle::Quarterly,
+            "annual" => BillingCycle::Annual,
+            "triennial" => BillingCycle::Triennial,
+            _ => BillingCycle::Monthly, // Default to Monthly for invalid values
+        }
+    }
+}
+
+impl From<&str> for BillingCycle {
+    fn from(s: &str) -> Self {
+        match s.to_lowercase().as_str() {
+            "monthly" => BillingCycle::Monthly,
+            "quarterly" => BillingCycle::Quarterly,
+            "annual" => BillingCycle::Annual,
+            "triennial" => BillingCycle::Triennial,
+            _ => BillingCycle::Monthly,
+        }
+    }
+}
+
+impl Tier {
+    pub fn all_tiers() -> Vec<Tier> {
+        vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
+    }
 }
