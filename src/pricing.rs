@@ -289,3 +289,21 @@ impl Tier {
         vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReferralStats {
+    pub referral_code: String,
+    pub total_referrals: usize,
+    pub active_referrals: usize,
+    pub current_multiplier: f64,
+    pub referral_breakdown: Vec<ReferralInfo>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReferralInfo {
+    pub user_id: String,
+    pub created_at: String,
+    pub tier: Tier,
+    pub is_active: bool,
+    pub multiplier_contribution: f64,
+}
