@@ -1,4 +1,6 @@
+use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Claims {
@@ -42,7 +44,7 @@ pub struct DiscordCallbackQuery {
     pub state: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ApiKeyResponse {
     pub id: String,
     pub name: String,
@@ -53,7 +55,7 @@ pub struct ApiKeyResponse {
     pub usage_count: i64,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApiKeyResponse {
     pub id: String,
     pub name: String,
@@ -67,4 +69,14 @@ pub struct CreateApiKeyResponse {
 #[derive(Debug, Deserialize)]
 pub struct CreateApiKeyRequest {
     pub name: String,
+}
+
+#[derive(Debug)]
+pub struct GeneratedApiKey {
+    pub id: Uuid,
+    pub full_key: String,
+    pub name: String,
+    pub status: String,
+    pub created_at: NaiveDateTime,
+    pub key_preview: String,
 }
