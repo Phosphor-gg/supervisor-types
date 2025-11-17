@@ -66,7 +66,7 @@ pub struct CreateApiKeyResponse {
     pub warning: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApiKeyRequest {
     pub name: String,
 }
