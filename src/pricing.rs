@@ -288,6 +288,15 @@ impl Tier {
     pub fn all_tiers() -> Vec<Tier> {
         vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
     }
+
+    pub fn get_referral_multiplier(tier: &Tier) -> f64 {
+        match tier {
+            Tier::Basic => 0.05,      // 5%
+            Tier::Standard => 0.075,  // 7.5%
+            Tier::Premium => 0.1125,  // 11.25%
+            _ => 0.0,             // Free tier gets no multiplier
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
