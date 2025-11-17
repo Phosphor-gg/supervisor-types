@@ -2,6 +2,7 @@ use crate::moderate::{ModerationLabel, ModerationModel};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
+use crate::pricing::Tier;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildsInfoRequest {
@@ -50,7 +51,7 @@ pub struct RoleInfo {
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct AdminInfo {
     pub user_info: UserInfo,
-    pub subscription_tier: String,
+    pub subscription_tier: Tier,
     pub has_account: bool,
 }
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -90,7 +91,7 @@ pub struct CheckAccountResponse {
     pub has_account: bool,
     #[allow(dead_code)]
     pub has_subscription: bool,
-    pub account_tier: Option<String>,
+    pub account_tier: Option<Tier>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
