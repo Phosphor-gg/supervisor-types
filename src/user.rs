@@ -6,7 +6,7 @@ pub struct UserCountResponse {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserProfileResponse {
-    pub id: String, // Add the user's UUID
+    pub id: String,
     pub discord_id: Option<String>,
     pub email: String,
     pub username: String,

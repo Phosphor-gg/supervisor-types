@@ -24,8 +24,8 @@ pub struct CreditTransaction {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StripeSubscriptionInfo {
-    pub tier: String,
-    pub billing_cycle: String,
+    pub tier: Tier,
+    pub billing_cycle: BillingCycle,
     pub status: String,
     pub current_period_end: Option<DateTime<Utc>>,
     pub cancel_at_period_end: bool,
@@ -38,8 +38,8 @@ pub struct StripeSubscriptionInfo {
 impl StripeSubscriptionInfo {
     pub fn free() -> Self {
         Self {
-            tier: "Free".to_string(),
-            billing_cycle: "monthly".to_string(),
+            tier: Tier::Free,
+            billing_cycle: BillingCycle::Monthly,
             status: "inactive".to_string(),
             current_period_end: None,
             cancel_at_period_end: false,
@@ -53,8 +53,8 @@ impl StripeSubscriptionInfo {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SubscriptionInfo {
-    pub tier: String,
-    pub cycle: String,
+    pub tier: Tier,
+    pub cycle: BillingCycle,
     pub price: f64,
     pub expires_at: Option<NaiveDateTime>,
     pub max_monthly_credits: i64,
@@ -73,7 +73,7 @@ pub struct CreditsInfoResponse {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateCheckoutSessionRequest {
     pub tier: Tier,
-    pub billing_cycle: String,
+    pub billing_cycle: BillingCycle,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -89,8 +89,8 @@ pub struct SubscriptionUpdateResponse {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ChangePlanRequest {
-    pub tier: String,
-    pub billing_cycle: String,
+    pub tier: Tier,
+    pub billing_cycle: BillingCycle,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -117,7 +117,7 @@ pub struct ToggleAutoRenewalResponse {
     pub message: String,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Hash, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum Tier {
     Free,
