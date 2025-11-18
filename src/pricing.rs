@@ -138,10 +138,37 @@ pub struct FormattedPrice {
     pub currency: String,
 }
 
+impl FormattedPrice {
+    pub fn currency_symbol(&self) -> &str {
+        match self.currency.to_uppercase().as_str() {
+            "USD" => "$",
+            "EUR" => "€",
+            "GBP" => "£",
+            "JPY" => "¥",
+            "CAD" => "CA$",
+            "AUD" => "A$",
+            "CHF" => "CHF ",
+            "CNY" => "¥",
+            "INR" => "₹",
+            _ => &self.currency,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TierPricing {
     pub tier: Tier,
     pub prices: HashMap<BillingCycle, FormattedPrice>, // billing_cycle -> price
+}
+
+impl TierPricing {
+    pub fn description(&self) -> String {
+        self.tier.get_description().to_string()
+    }
+
+    pub fn features(&self) -> Vec<&'static str> {
+        self.tier.get_features()
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
