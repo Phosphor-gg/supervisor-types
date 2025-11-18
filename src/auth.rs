@@ -80,3 +80,108 @@ pub struct GeneratedApiKey {
     pub created_at: NaiveDateTime,
     pub key_preview: String,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordTokenResponse {
+    pub access_token: String,
+    pub token_type: String,
+    pub expires_in: i64,
+    pub refresh_token: String,
+    pub scope: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordUser {
+    pub id: String,
+    pub username: String,
+    pub discriminator: Option<String>,
+    pub global_name: Option<String>,
+    pub avatar: Option<String>,
+    pub email: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GoogleTokenResponse {
+    pub access_token: String,
+    pub token_type: String,
+    pub expires_in: i64,
+    pub refresh_token: Option<String>,
+    pub scope: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GoogleUser {
+    pub id: String,
+    pub email: String,
+    pub verified_email: bool,
+    pub name: Option<String>,
+    pub given_name: Option<String>,
+    pub family_name: Option<String>,
+    pub picture: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GitHubTokenResponse {
+    pub access_token: String,
+    pub token_type: String,
+    pub scope: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GitHubUser {
+    pub id: i64,
+    pub login: String,
+    pub email: Option<String>,
+    pub name: Option<String>,
+    pub avatar_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GitHubEmail {
+    pub email: String,
+    pub primary: bool,
+    pub verified: bool,
+    pub visibility: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AuthResponse {
+    pub token: String,
+    pub user: UserInfo,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserInfo {
+    pub id: String,
+    pub discord_id: Option<String>,
+    pub email: String,
+    pub username: String,
+    pub global_name: Option<String>,
+    pub avatar: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TokenRequest<'a> {
+    client_id: &'a str,
+    client_secret: &'a str,
+    grant_type: &'a str,
+    code: &'a str,
+    redirect_uri: &'a str,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum OAuthProviderType {
+    Discord,
+    Google,
+    GitHub,
+}
+
+impl OAuthProviderType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            OAuthProviderType::Discord => "discord",
+            OAuthProviderType::Google => "google",
+            OAuthProviderType::GitHub => "github",
+        }
+    }
+}
