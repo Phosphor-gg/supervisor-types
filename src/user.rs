@@ -40,6 +40,12 @@ pub struct DashboardStats {
 pub struct ApplyReferralCodeRequest {
     pub code: String,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ApplyReferralCodeResponse {
+    pub success: bool,
+    pub message: String,
+}
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AccountDeletionCheckResponse {
     pub can_delete: bool,
