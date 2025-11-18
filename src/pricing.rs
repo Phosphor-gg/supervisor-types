@@ -289,8 +289,8 @@ impl Tier {
         vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
     }
 
-    pub fn get_referral_multiplier(tier: &Tier) -> f64 {
-        match tier {
+    pub fn get_referral_multiplier(&self) -> f64 {
+        match self {
             Tier::Basic => 0.05,      // 5%
             Tier::Standard => 0.075,  // 7.5%
             Tier::Premium => 0.1125,  // 11.25%
