@@ -40,7 +40,7 @@ pub struct DashboardStats {
 pub struct ApplyReferralCodeRequest {
     pub code: String,
 }
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct AccountDeletionCheckResponse {
     pub can_delete: bool,
     pub reason: Option<String>,
