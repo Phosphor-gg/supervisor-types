@@ -203,7 +203,7 @@ impl From<&str> for Tier {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Copy, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Copy, Serialize, Deserialize, Eq, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum BillingCycle {
     Monthly,
