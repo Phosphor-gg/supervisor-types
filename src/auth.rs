@@ -162,11 +162,11 @@ pub struct UserInfo {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TokenRequest<'a> {
-    client_id: &'a str,
-    client_secret: &'a str,
-    grant_type: &'a str,
-    code: &'a str,
-    redirect_uri: &'a str,
+    pub client_id: &'a str,
+    pub client_secret: &'a str,
+    pub grant_type: &'a str,
+    pub code: &'a str,
+    pub redirect_uri: &'a str,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
