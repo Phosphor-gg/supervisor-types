@@ -141,7 +141,7 @@ pub struct FormattedPrice {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TierPricing {
     pub tier: Tier,
-    pub prices: HashMap<String, FormattedPrice>, // billing_cycle -> price
+    pub prices: HashMap<BillingCycle, FormattedPrice>, // billing_cycle -> price
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
