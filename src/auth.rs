@@ -44,7 +44,7 @@ pub struct DiscordCallbackQuery {
     pub state: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ApiKeyResponse {
     pub id: String,
     pub name: String,
