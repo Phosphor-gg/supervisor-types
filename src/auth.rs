@@ -155,7 +155,7 @@ pub struct AuthResponse {
     pub user: UserInfo,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct UserInfo {
     pub id: String,
     pub discord_id: Option<String>,
@@ -180,6 +180,14 @@ pub enum OAuthProviderType {
     Google,
     GitHub,
 }
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AuthState {
+    pub is_authenticated: bool,
+    pub user: Option<UserInfo>,
+    pub jwt_token: Option<String>,
+}
+
 
 impl OAuthProviderType {
     pub fn as_str(&self) -> &'static str {
