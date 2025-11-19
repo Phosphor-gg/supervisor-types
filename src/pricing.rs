@@ -76,6 +76,7 @@ pub struct CreditsInfoResponse {
 pub struct CreateCheckoutSessionRequest {
     pub tier: Tier,
     pub billing_cycle: BillingCycle,
+    pub referral_code: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
