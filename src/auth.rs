@@ -188,7 +188,6 @@ pub struct AuthState {
     pub jwt_token: Option<String>,
 }
 
-
 impl OAuthProviderType {
     pub fn as_str(&self) -> &'static str {
         match self {

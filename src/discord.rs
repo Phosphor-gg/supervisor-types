@@ -1,8 +1,8 @@
 use crate::moderate::{ModerationLabel, ModerationModel};
+use crate::pricing::Tier;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
-use crate::pricing::Tier;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildsInfoRequest {

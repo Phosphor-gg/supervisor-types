@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use std::fmt::Display;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::fmt::Display;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreditBalance {
@@ -22,7 +22,6 @@ pub struct CreditTransaction {
     pub description: String,
     pub created_at: NaiveDateTime,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StripeSubscriptionInfo {
@@ -60,7 +59,7 @@ pub struct SubscriptionInfo {
     pub price: f64,
     pub expires_at: Option<NaiveDateTime>,
     pub max_monthly_credits: i64,
-    pub is_active: bool
+    pub is_active: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -320,10 +319,10 @@ impl Tier {
 
     pub fn get_referral_multiplier(&self) -> f64 {
         match self {
-            Tier::Basic => 0.05,      // 5%
-            Tier::Standard => 0.075,  // 7.5%
-            Tier::Premium => 0.1125,  // 11.25%
-            _ => 0.0,             // Free tier gets no multiplier
+            Tier::Basic => 0.05,     // 5%
+            Tier::Standard => 0.075, // 7.5%
+            Tier::Premium => 0.1125, // 11.25%
+            _ => 0.0,                // Free tier gets no multiplier
         }
     }
 
