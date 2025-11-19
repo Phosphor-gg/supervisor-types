@@ -187,7 +187,7 @@ pub struct BillingCycleInfo {
     pub discount_percentage: Option<i32>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Hash, Eq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Hash, Eq, Copy)]
 #[serde(rename_all = "lowercase")]
 pub enum Tier {
     Free,
