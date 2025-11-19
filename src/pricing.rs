@@ -76,6 +76,7 @@ pub struct CreditsInfoResponse {
 pub struct CreateCheckoutSessionRequest {
     pub tier: Tier,
     pub billing_cycle: BillingCycle,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub referral_code: Option<String>,
 }
 
