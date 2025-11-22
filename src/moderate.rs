@@ -122,6 +122,14 @@ impl ModerationModel {
         ]
     }
 
+    pub fn to_name(&self) -> &str {
+        match self {
+            ModerationModel::Observer => "Observer",
+            ModerationModel::Sentinel => "Sentinel",
+            ModerationModel::Arbiter => "Arbiter",
+        }
+    }
+
     pub fn credits_per_byte(&self) -> i64 {
         match self {
             ModerationModel::Observer => 1,
