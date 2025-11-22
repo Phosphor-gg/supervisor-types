@@ -81,20 +81,6 @@ pub struct UserInfo {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CheckAccountRequest {
-    pub guild_id: String,
-    pub owner_discord_id: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CheckAccountResponse {
-    pub has_account: bool,
-    #[allow(dead_code)]
-    pub has_subscription: bool,
-    pub account_tier: Option<Tier>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordModerateRequest {
     pub guild_info: GuildInfo,
     pub text: String,
