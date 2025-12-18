@@ -81,7 +81,6 @@ pub struct GeneratedApiKey {
     pub id: Uuid,
     pub full_key: String,
     pub name: String,
-    pub status: String,
     pub created_at: NaiveDateTime,
     pub key_preview: String,
 }
