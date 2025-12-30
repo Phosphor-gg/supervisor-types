@@ -96,7 +96,7 @@ pub struct ChangePlanRequest {
     pub billing_cycle: BillingCycle,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PaymentMethodResponse {
     pub last4: String,
     pub brand: String,
