@@ -1,3 +1,4 @@
+use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 use std::str::FromStr;
@@ -32,6 +33,23 @@ pub struct ModerationResponse {
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context_labels: Option<Vec<ModerationLabel>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ModerationLogEntry {
+    pub text: String,
+    pub result: String,
+    pub timestamp: String,
+}
+
+impl ModerationLogEntry {
+    pub fn now(text: String, result: String) -> Self {
+        Self {
+            text,
+            result,
+            timestamp: Utc::now().to_rfc3339(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]

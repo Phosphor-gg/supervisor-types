@@ -69,6 +69,8 @@ pub struct CreditsInfoResponse {
     pub used_this_month: i64,
     pub remaining_this_month: i64,
     pub usage_percentage: f64,
+    #[serde(default)]
+    pub reset_date: Option<NaiveDateTime>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
