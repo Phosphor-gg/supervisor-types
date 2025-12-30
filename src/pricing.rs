@@ -62,7 +62,7 @@ pub struct SubscriptionInfo {
     pub is_active: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreditsInfoResponse {
     pub balance: i64,
     pub monthly_allocation: i64,
@@ -98,7 +98,7 @@ pub struct ChangePlanRequest {
     pub billing_cycle: BillingCycle,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PaymentMethodResponse {
     pub last4: String,
     pub brand: String,
