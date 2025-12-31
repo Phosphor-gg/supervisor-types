@@ -73,6 +73,17 @@ pub struct CreditsInfoResponse {
     pub reset_date: Option<NaiveDateTime>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DailyUsageEntry {
+    pub day: String,
+    pub credits_used: i64,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct DailyUsageQuery {
+    pub days: Option<u32>,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateCheckoutSessionRequest {
     pub tier: Tier,
