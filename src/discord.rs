@@ -200,6 +200,15 @@ impl Default for GuildConfig {
     }
 }
 
+impl Default for GuildContext {
+    fn default() -> Self {
+        GuildContext {
+            guild_config: Default::default(),
+            guild_admin_ids: vec![],
+        }
+    }
+}
+
 impl FromStr for ModerationAction {
     type Err = ();
 
