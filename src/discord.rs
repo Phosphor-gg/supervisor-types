@@ -99,6 +99,12 @@ pub struct DiscordData {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct GuildContext {
+    pub guild_config: GuildConfig,
+    pub guild_admin_ids: Vec<String>
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct GuildConfig {
     #[serde(default = "default_moderate_all_channels")]
     pub moderate_all_channels: bool,
