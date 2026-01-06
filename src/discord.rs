@@ -3,6 +3,7 @@ use crate::pricing::Tier;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
+use chrono::{DateTime, Utc};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GuildsInfoRequest {
@@ -102,6 +103,13 @@ pub struct DiscordData {
 pub struct GuildContext {
     pub guild_config: GuildConfig,
     pub guild_admin_ids: Vec<String>
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct VoteStatusResponse {
+    pub created_at: Option<DateTime<Utc>>,
+    pub expires_at: Option<DateTime<Utc>>,
+    pub weight: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
