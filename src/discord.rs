@@ -251,3 +251,9 @@ impl std::fmt::Display for ModerationAction {
         }
     }
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AccountLinkedNotification {
+    pub discord_id: String,
+    pub is_new_account: bool,
+}
