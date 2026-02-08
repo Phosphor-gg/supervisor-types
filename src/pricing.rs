@@ -354,22 +354,22 @@ impl Tier {
                 "Access to Observer Model",
                 "Discord Bot and Rest API Access",
                 "Context Awareness",
-                "2.5 Million Credits/Month",
+                "10 Million Credits/Month",
             ],
             Tier::Standard => vec![
                 "Everything in Basic",
                 "Access to Sentinel Model",
-                "7.5 Million Credits/Month",
+                "30 Million Credits/Month",
             ],
             Tier::Premium => vec![
                 "Everything in Standard",
                 "Access to Arbiter Model",
-                "22.5 Million Credits/Month",
+                "90 Million Credits/Month",
             ],
             _ => vec![
                 "Access to Observer Model",
                 "Discord Bot and Rest API Access",
-                "50000 Credits/Month",
+                "1 Million Credits/Month",
             ],
         }
     }
