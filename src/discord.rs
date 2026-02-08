@@ -158,7 +158,7 @@ fn default_role_filter_mode() -> RoleFilterMode {
 }
 
 fn default_model() -> ModerationModel {
-    ModerationModel::Observer
+    ModerationModel::Auto
 }
 
 fn default_context_history_count() -> i32 {
