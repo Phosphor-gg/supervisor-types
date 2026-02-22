@@ -1,4 +1,3 @@
-use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -145,6 +144,8 @@ pub struct GitHubEmail {
 pub struct AuthResponse {
     pub token: String,
     pub user: UserInfo,
+    #[serde(default)]
+    pub is_new_account: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
