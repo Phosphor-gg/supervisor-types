@@ -191,7 +191,7 @@ impl Default for GuildConfig {
                 ModerationLabel::V,
                 ModerationLabel::HR,
                 ModerationLabel::SH,
-                ModerationLabel::S3,
+                ModerationLabel::SU,
                 ModerationLabel::SP,
                 ModerationLabel::SE,
             ]),
