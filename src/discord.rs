@@ -96,6 +96,12 @@ pub struct ModerationFeedbackRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ModerationFeedbackIngestResponse {
+    pub stored: bool,
+    pub dataset: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordDataResponse {
     pub discord_data: HashMap<String, DiscordData>,
 }
