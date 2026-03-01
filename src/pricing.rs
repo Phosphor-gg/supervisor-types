@@ -10,6 +10,7 @@ pub struct CreditBalance {
     pub remaining_credits: i64,
     pub usage_percentage: f64,
     pub reset_date: Option<NaiveDateTime>,
+    pub extra_credits: i64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -71,6 +72,8 @@ pub struct CreditsInfoResponse {
     pub usage_percentage: f64,
     #[serde(default)]
     pub reset_date: Option<NaiveDateTime>,
+    #[serde(default)]
+    pub extra_credits: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
