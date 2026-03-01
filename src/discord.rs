@@ -92,7 +92,6 @@ pub struct ModerationFeedbackRequest {
     pub source: String,
     pub vote: String,
     pub original_text: String,
-    pub moderation_labels: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
