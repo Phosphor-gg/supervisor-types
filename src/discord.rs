@@ -148,6 +148,10 @@ pub struct GuildConfig {
     pub context_history_count: i32,
     #[serde(default = "default_enable_context")]
     pub enable_context: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bot_nickname: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bot_avatar_url: Option<String>,
 }
 
 fn default_moderate_all_channels() -> bool {
@@ -217,6 +221,8 @@ impl Default for GuildConfig {
             alerts_channel: None,
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
+            bot_nickname: None,
+            bot_avatar_url: None,
         }
     }
 }
