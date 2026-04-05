@@ -271,12 +271,18 @@ pub struct BotAppearanceRequest {
     pub nickname: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub banner_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bio: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BotAppearanceResponse {
     pub nickname: Option<String>,
     pub avatar_url: Option<String>,
+    pub banner_url: Option<String>,
+    pub bio: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
