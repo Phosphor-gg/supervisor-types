@@ -150,6 +150,18 @@ pub struct GuildConfig {
     pub enable_context: bool,
     #[serde(default = "default_timeout_duration_minutes")]
     pub timeout_duration_minutes: i32,
+    #[serde(default)]
+    pub enable_link_filter: bool,
+    #[serde(default)]
+    pub block_discord_invites: bool,
+    #[serde(default)]
+    pub block_discord_media: bool,
+    #[serde(default)]
+    pub block_discord_nitro: bool,
+    #[serde(default = "default_link_filter_mode")]
+    pub link_filter_mode: LinkFilterMode,
+    #[serde(default)]
+    pub custom_link_filters: Vec<String>,
 }
 
 fn default_moderate_all_channels() -> bool {
@@ -182,6 +194,29 @@ fn default_context_history_count() -> i32 {
 
 fn default_timeout_duration_minutes() -> i32 {
     5
+}
+
+fn default_link_filter_mode() -> LinkFilterMode {
+    LinkFilterMode::Blacklist
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[serde(rename_all = "lowercase")]
+pub enum LinkFilterMode {
+    Whitelist,
+    Blacklist,
+}
+
+impl FromStr for LinkFilterMode {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<LinkFilterMode, Self::Err> {
+        match input {
+            "whitelist" => Ok(LinkFilterMode::Whitelist),
+            "blacklist" => Ok(LinkFilterMode::Blacklist),
+            _ => Err(()),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -224,6 +259,12 @@ impl Default for GuildConfig {
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
             timeout_duration_minutes: default_timeout_duration_minutes(),
+            enable_link_filter: false,
+            block_discord_invites: false,
+            block_discord_media: false,
+            block_discord_nitro: false,
+            link_filter_mode: default_link_filter_mode(),
+            custom_link_filters: Vec::new(),
         }
     }
 }
