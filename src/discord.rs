@@ -150,9 +150,9 @@ pub struct GuildConfig {
     pub enable_context: bool,
     #[serde(default = "default_timeout_duration_minutes")]
     pub timeout_duration_minutes: i32,
-    #[serde(default)]
+    #[serde(default = "default_true")]
     pub enable_link_filter: bool,
-    #[serde(default)]
+    #[serde(default = "default_true")]
     pub block_discord_invites: bool,
     #[serde(default)]
     pub block_discord_media: bool,
@@ -162,6 +162,10 @@ pub struct GuildConfig {
     pub link_filter_mode: LinkFilterMode,
     #[serde(default)]
     pub custom_link_filters: Vec<String>,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 fn default_moderate_all_channels() -> bool {
@@ -259,8 +263,8 @@ impl Default for GuildConfig {
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
             timeout_duration_minutes: default_timeout_duration_minutes(),
-            enable_link_filter: false,
-            block_discord_invites: false,
+            enable_link_filter: true,
+            block_discord_invites: true,
             block_discord_media: false,
             block_discord_nitro: false,
             link_filter_mode: default_link_filter_mode(),
