@@ -148,6 +148,8 @@ pub struct GuildConfig {
     pub context_history_count: i32,
     #[serde(default = "default_enable_context")]
     pub enable_context: bool,
+    #[serde(default = "default_timeout_duration_minutes")]
+    pub timeout_duration_minutes: i32,
 }
 
 fn default_moderate_all_channels() -> bool {
@@ -175,6 +177,10 @@ fn default_model() -> ModerationModel {
 }
 
 fn default_context_history_count() -> i32 {
+    5
+}
+
+fn default_timeout_duration_minutes() -> i32 {
     5
 }
 
@@ -217,6 +223,7 @@ impl Default for GuildConfig {
             alerts_channel: None,
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
+            timeout_duration_minutes: default_timeout_duration_minutes(),
         }
     }
 }
