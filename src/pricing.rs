@@ -396,3 +396,20 @@ pub struct ReferralInfo {
     pub is_active: bool,
     pub multiplier_contribution: f64,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InvoiceInfo {
+    pub id: String,
+    pub amount: i64,
+    pub currency: String,
+    pub status: String,
+    pub created: String,
+    pub hosted_invoice_url: Option<String>,
+    pub invoice_pdf: Option<String>,
+    pub description: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InvoicesResponse {
+    pub invoices: Vec<InvoiceInfo>,
+}
