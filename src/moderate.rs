@@ -56,15 +56,22 @@ impl ModerationLogEntry {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub enum ModerationLabel {
-    S,
-    H,
-    V,
-    HR,
-    SH,
-    SU,
-    SP,
-    SE,
+    P,
     T,
+    H,
+    HR,
+    I,
+    S,
+    SU,
+    S2,
+    SE,
+    V,
+    SH,
+    M,
+    SP,
+    PM,
+    SI,
+    IL,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -90,15 +97,22 @@ impl Display for ModerationModel {
 impl Display for ModerationLabel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ModerationLabel::S => write!(f, "S"),
+            ModerationLabel::P => write!(f, "P"),
             ModerationLabel::T => write!(f, "T"),
             ModerationLabel::H => write!(f, "H"),
-            ModerationLabel::V => write!(f, "V"),
             ModerationLabel::HR => write!(f, "HR"),
-            ModerationLabel::SH => write!(f, "SH"),
+            ModerationLabel::I => write!(f, "I"),
+            ModerationLabel::S => write!(f, "S"),
             ModerationLabel::SU => write!(f, "SU"),
-            ModerationLabel::SP => write!(f, "SP"),
+            ModerationLabel::S2 => write!(f, "S2"),
             ModerationLabel::SE => write!(f, "SE"),
+            ModerationLabel::V => write!(f, "V"),
+            ModerationLabel::SH => write!(f, "SH"),
+            ModerationLabel::M => write!(f, "M"),
+            ModerationLabel::SP => write!(f, "SP"),
+            ModerationLabel::PM => write!(f, "PM"),
+            ModerationLabel::SI => write!(f, "SI"),
+            ModerationLabel::IL => write!(f, "IL"),
         }
     }
 }
@@ -108,15 +122,22 @@ impl FromStr for ModerationLabel {
 
     fn from_str(input: &str) -> Result<ModerationLabel, Self::Err> {
         match input {
-            "S" => Ok(ModerationLabel::S),
-            "H" => Ok(ModerationLabel::H),
-            "V" => Ok(ModerationLabel::V),
-            "HR" => Ok(ModerationLabel::HR),
-            "SH" => Ok(ModerationLabel::SH),
-            "SU" => Ok(ModerationLabel::SU),
-            "SP" => Ok(ModerationLabel::SP),
-            "SE" => Ok(ModerationLabel::SE),
+            "P" => Ok(ModerationLabel::P),
             "T" => Ok(ModerationLabel::T),
+            "H" => Ok(ModerationLabel::H),
+            "HR" => Ok(ModerationLabel::HR),
+            "I" => Ok(ModerationLabel::I),
+            "S" => Ok(ModerationLabel::S),
+            "SU" => Ok(ModerationLabel::SU),
+            "S2" => Ok(ModerationLabel::S2),
+            "SE" => Ok(ModerationLabel::SE),
+            "V" => Ok(ModerationLabel::V),
+            "SH" => Ok(ModerationLabel::SH),
+            "M" => Ok(ModerationLabel::M),
+            "SP" => Ok(ModerationLabel::SP),
+            "PM" => Ok(ModerationLabel::PM),
+            "SI" => Ok(ModerationLabel::SI),
+            "IL" => Ok(ModerationLabel::IL),
             _ => Err(()),
         }
     }
@@ -231,28 +252,43 @@ impl ModerationModel {
 impl ModerationLabel {
     pub fn to_name(&self) -> &str {
         match self {
-            ModerationLabel::S => "Sexual",
-            ModerationLabel::H => "Harassment",
-            ModerationLabel::V => "Violence",
-            ModerationLabel::HR => "Hate/Racism",
-            ModerationLabel::SH => "Self-Harm",
-            ModerationLabel::SU => "Sexual (Severe/Minors)",
-            ModerationLabel::SP => "Spam",
+            ModerationLabel::P => "Profanity",
             ModerationLabel::T => "Toxicity",
+            ModerationLabel::H => "Harassment",
+            ModerationLabel::HR => "Hate/Racism",
+            ModerationLabel::I => "Insult",
+            ModerationLabel::S => "Sexual",
+            ModerationLabel::SU => "Sexual (Severe/Minors)",
+            ModerationLabel::S2 => "Sexual (Explicit)",
             ModerationLabel::SE => "Sensitive Content",
+            ModerationLabel::V => "Violence",
+            ModerationLabel::SH => "Self-Harm",
+            ModerationLabel::M => "Medical/Injury",
+            ModerationLabel::SP => "Spam",
+            ModerationLabel::PM => "Promotional",
+            ModerationLabel::SI => "Scam/Incoherent",
+            ModerationLabel::IL => "Illegal Activity",
         }
     }
 
     pub fn all_labels() -> Vec<ModerationLabel> {
         vec![
-            ModerationLabel::S,
+            ModerationLabel::P,
+            ModerationLabel::T,
             ModerationLabel::H,
-            ModerationLabel::V,
             ModerationLabel::HR,
-            ModerationLabel::SH,
+            ModerationLabel::I,
+            ModerationLabel::S,
             ModerationLabel::SU,
-            ModerationLabel::SP,
+            ModerationLabel::S2,
             ModerationLabel::SE,
+            ModerationLabel::V,
+            ModerationLabel::SH,
+            ModerationLabel::M,
+            ModerationLabel::SP,
+            ModerationLabel::PM,
+            ModerationLabel::SI,
+            ModerationLabel::IL,
         ]
     }
 }
