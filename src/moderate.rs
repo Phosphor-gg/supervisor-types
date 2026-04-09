@@ -28,6 +28,8 @@ pub struct BatchModerationRequest {
 pub struct ModerationResponse {
     pub flagged: bool,
     pub labels: Vec<ModerationLabel>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub implicit_labels: Option<Vec<ModerationLabel>>,
     pub scores: std::collections::HashMap<ModerationLabel, f32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub needs_context: Option<bool>,
