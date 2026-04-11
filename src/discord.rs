@@ -85,6 +85,8 @@ pub struct UserInfo {
 pub struct DiscordModerateRequest {
     pub guild_info: GuildInfo,
     pub text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub image: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
