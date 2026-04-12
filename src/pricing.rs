@@ -35,6 +35,14 @@ pub struct StripeSubscriptionInfo {
     pub price: Option<f64>, // Price in the smallest currency unit (e.g., pence, cents)
     pub currency: Option<String>, // Currency code (e.g., "gbp", "usd")
     pub payment_method_id: Option<String>, // Default payment method ID
+    #[serde(default)]
+    pub subscription_id: Option<String>,
+    #[serde(default)]
+    pub overdraft_enabled: bool,
+    #[serde(default)]
+    pub overdraft_limit: Option<i64>,
+    #[serde(default)]
+    pub overdraft_used: Option<i64>,
 }
 
 impl StripeSubscriptionInfo {
@@ -49,8 +57,25 @@ impl StripeSubscriptionInfo {
             price: None,
             currency: None,
             payment_method_id: None,
+            subscription_id: None,
+            overdraft_enabled: false,
+            overdraft_limit: None,
+            overdraft_used: None,
         }
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OverdraftSettingsRequest {
+    pub enabled: bool,
+    pub limit: i64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OverdraftSettingsResponse {
+    pub enabled: bool,
+    pub limit: i64,
+    pub used: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
