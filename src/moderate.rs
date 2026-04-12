@@ -38,6 +38,8 @@ pub struct ModerationResponse {
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context_labels: Option<Vec<ModerationLabel>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rewritten_text: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -75,6 +77,7 @@ pub enum ModerationLabel {
     PM,
     SI,
     IL,
+    PD,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -116,6 +119,7 @@ impl Display for ModerationLabel {
             ModerationLabel::PM => write!(f, "PM"),
             ModerationLabel::SI => write!(f, "SI"),
             ModerationLabel::IL => write!(f, "IL"),
+            ModerationLabel::PD => write!(f, "PD"),
         }
     }
 }
@@ -141,6 +145,7 @@ impl FromStr for ModerationLabel {
             "PM" => Ok(ModerationLabel::PM),
             "SI" => Ok(ModerationLabel::SI),
             "IL" => Ok(ModerationLabel::IL),
+            "PD" => Ok(ModerationLabel::PD),
             _ => Err(()),
         }
     }
@@ -271,6 +276,7 @@ impl ModerationLabel {
             ModerationLabel::PM => "Promotional",
             ModerationLabel::SI => "Scam/Incoherent",
             ModerationLabel::IL => "Illegal Activity",
+            ModerationLabel::PD => "Personal Data",
         }
     }
 
@@ -292,6 +298,7 @@ impl ModerationLabel {
             ModerationLabel::PM,
             ModerationLabel::SI,
             ModerationLabel::IL,
+            ModerationLabel::PD,
         ]
     }
 }
