@@ -164,6 +164,10 @@ pub struct GuildConfig {
     pub link_filter_mode: LinkFilterMode,
     #[serde(default)]
     pub custom_link_filters: Vec<String>,
+    #[serde(default)]
+    pub enable_verification: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub verified_role_id: Option<String>,
 }
 
 fn default_true() -> bool {
@@ -276,6 +280,8 @@ impl Default for GuildConfig {
             block_discord_nitro: false,
             link_filter_mode: default_link_filter_mode(),
             custom_link_filters: Vec::new(),
+            enable_verification: false,
+            verified_role_id: None,
         }
     }
 }
