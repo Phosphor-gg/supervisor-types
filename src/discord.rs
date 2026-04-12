@@ -103,6 +103,20 @@ pub struct ModerationFeedbackIngestResponse {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VerifyCompleteRequest {
+    pub guild_id: String,
+    pub user_id: String,
+    pub method: String,
+    pub turnstile_token: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VerifyResponse {
+    pub success: bool,
+    pub message: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiscordDataResponse {
     pub discord_data: HashMap<String, DiscordData>,
 }
