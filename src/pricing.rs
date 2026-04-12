@@ -74,6 +74,10 @@ pub struct CreditsInfoResponse {
     pub reset_date: Option<NaiveDateTime>,
     #[serde(default)]
     pub extra_credits: i64,
+    #[serde(default)]
+    pub discount_available: bool,
+    #[serde(default)]
+    pub discount_expires_at: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
