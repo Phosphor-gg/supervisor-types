@@ -218,9 +218,20 @@ impl TierPricing {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FlashSaleInfo {
+    pub id: String,
+    pub name: String,
+    pub discount_percentage: i32,
+    pub eligible_tiers: Option<Vec<Tier>>,
+    pub ends_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PricingData {
     pub tiers: Vec<TierPricing>,
     pub billing_cycles: Vec<BillingCycleInfo>,
+    #[serde(default)]
+    pub flash_sale: Option<FlashSaleInfo>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
