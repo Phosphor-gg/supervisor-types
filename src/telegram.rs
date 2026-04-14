@@ -82,7 +82,7 @@ impl Default for TelegramChatConfig {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct TelegramChatContext {
     pub chat_config: TelegramChatConfig,
     pub admin_user_ids: Vec<String>,
