@@ -109,3 +109,42 @@ pub struct TelegramUserInfo {
     pub username: Option<String>,
     pub is_owner: bool,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TelegramAuthData {
+    pub id: i64,
+    pub first_name: String,
+    pub last_name: Option<String>,
+    pub username: Option<String>,
+    pub photo_url: Option<String>,
+    pub auth_date: i64,
+    pub hash: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TelegramLinkStatus {
+    pub linked: bool,
+    pub telegram_id: Option<String>,
+    pub username: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TelegramIntegrationData {
+    pub chat_id: String,
+    pub config: TelegramChatConfig,
+    pub admin_count: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SyncAdminsRequest {
+    pub chat_id: String,
+    pub chat_title: Option<String>,
+    pub admins: Vec<TelegramAdminEntry>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TelegramAdminEntry {
+    pub user_id: String,
+    pub username: Option<String>,
+    pub is_owner: bool,
+}
