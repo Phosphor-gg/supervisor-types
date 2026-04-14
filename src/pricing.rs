@@ -176,7 +176,7 @@ pub struct PriceInfo {
     pub payment_link: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct FormattedPrice {
     pub price_id: String,
     pub amount_cents: i64,
@@ -201,7 +201,7 @@ impl FormattedPrice {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TierPricing {
     pub tier: Tier,
     pub prices: HashMap<BillingCycle, FormattedPrice>, // billing_cycle -> price
@@ -217,7 +217,7 @@ impl TierPricing {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct FlashSaleInfo {
     pub id: String,
     pub name: String,
@@ -226,7 +226,7 @@ pub struct FlashSaleInfo {
     pub ends_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PricingData {
     pub tiers: Vec<TierPricing>,
     pub billing_cycles: Vec<BillingCycleInfo>,
@@ -234,7 +234,7 @@ pub struct PricingData {
     pub flash_sale: Option<FlashSaleInfo>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BillingCycleInfo {
     pub cycle: BillingCycle,
     pub display_name: String,
