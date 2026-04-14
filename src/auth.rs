@@ -172,6 +172,7 @@ pub enum OAuthProviderType {
     Discord,
     Google,
     GitHub,
+    Telegram,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -187,6 +188,7 @@ impl OAuthProviderType {
             OAuthProviderType::Discord => "discord",
             OAuthProviderType::Google => "google",
             OAuthProviderType::GitHub => "github",
+            OAuthProviderType::Telegram => "telegram",
         }
     }
 }
