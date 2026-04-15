@@ -257,6 +257,17 @@ impl ModerationModel {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UsernameCheckRequest {
+    pub username: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UsernameCheckResponse {
+    pub flagged: bool,
+    pub score: f64,
+}
+
 impl ModerationLabel {
     pub fn to_name(&self) -> &str {
         match self {

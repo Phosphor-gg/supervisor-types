@@ -32,6 +32,8 @@ pub struct TelegramChatConfig {
     pub custom_link_filters: Vec<String>,
     #[serde(default = "default_true")]
     pub block_telegram_invite_links: bool,
+    #[serde(default)]
+    pub enable_username_check: bool,
 }
 
 fn default_true() -> bool {
@@ -78,6 +80,7 @@ impl Default for TelegramChatConfig {
             link_filter_mode: LinkFilterMode::Blacklist,
             custom_link_filters: Vec::new(),
             block_telegram_invite_links: true,
+            enable_username_check: false,
         }
     }
 }
