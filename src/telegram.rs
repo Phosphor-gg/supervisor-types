@@ -59,7 +59,6 @@ impl Default for TelegramChatConfig {
             enabled_labels: HashSet::from([
                 ModerationLabel::H,
                 ModerationLabel::HR,
-                ModerationLabel::I,
                 ModerationLabel::S,
                 ModerationLabel::SU,
                 ModerationLabel::S2,
