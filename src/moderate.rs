@@ -33,7 +33,6 @@ pub struct ModerationResponse {
     pub labels: Vec<ModerationLabel>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub implicit_labels: Option<Vec<ModerationLabel>>,
-    pub scores: std::collections::HashMap<ModerationLabel, f32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -61,22 +60,39 @@ impl ModerationLogEntry {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub enum ModerationLabel {
+    #[serde(rename = "profanity", alias = "P")]
     P,
+    #[serde(rename = "toxicity", alias = "T")]
     T,
+    #[serde(rename = "harassment", alias = "H")]
     H,
+    #[serde(rename = "hate", alias = "HR")]
     HR,
+    #[serde(rename = "insult", alias = "I")]
     I,
+    #[serde(rename = "sexual", alias = "S")]
     S,
+    #[serde(rename = "sexual/minors", alias = "SU")]
     SU,
+    #[serde(rename = "sexual/explicit", alias = "S2")]
     S2,
+    #[serde(rename = "sensitive", alias = "SE")]
     SE,
+    #[serde(rename = "violence", alias = "V")]
     V,
+    #[serde(rename = "self-harm", alias = "SH")]
     SH,
+    #[serde(rename = "medical", alias = "M")]
     M,
+    #[serde(rename = "spam", alias = "SP")]
     SP,
+    #[serde(rename = "promotional", alias = "PM")]
     PM,
+    #[serde(rename = "scam", alias = "SI")]
     SI,
+    #[serde(rename = "illegal", alias = "IL")]
     IL,
+    #[serde(rename = "personal-data", alias = "PD")]
     PD,
 }
 
@@ -288,6 +304,28 @@ impl ModerationLabel {
             ModerationLabel::SI => "Scam/Incoherent",
             ModerationLabel::IL => "Illegal Activity",
             ModerationLabel::PD => "Personal Data",
+        }
+    }
+
+    pub fn to_short_name(&self) -> &str {
+        match self {
+            ModerationLabel::P => "P",
+            ModerationLabel::T => "T",
+            ModerationLabel::H => "H",
+            ModerationLabel::HR => "HR",
+            ModerationLabel::I => "I",
+            ModerationLabel::S => "S",
+            ModerationLabel::SU => "SU",
+            ModerationLabel::S2 => "S2",
+            ModerationLabel::SE => "SE",
+            ModerationLabel::V => "V",
+            ModerationLabel::SH => "SH",
+            ModerationLabel::M => "M",
+            ModerationLabel::SP => "SP",
+            ModerationLabel::PM => "PM",
+            ModerationLabel::SI => "SI",
+            ModerationLabel::IL => "IL",
+            ModerationLabel::PD => "PD",
         }
     }
 
