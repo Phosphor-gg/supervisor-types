@@ -52,3 +52,21 @@ pub struct AccountDeletionCheckResponse {
     pub reason: Option<String>,
     pub subscription_status: Option<String>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TimeSeriesPoint {
+    pub date: String,
+    pub value: i64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PublicStatsResponse {
+    pub user_count: i64,
+    pub user_growth: Vec<TimeSeriesPoint>,
+    pub moderation_requests: Vec<TimeSeriesPoint>,
+    pub moderation_total: i64,
+    pub discord_guilds: i64,
+    pub discord_members: i64,
+    pub guild_growth: Vec<TimeSeriesPoint>,
+    pub member_growth: Vec<TimeSeriesPoint>,
+}
