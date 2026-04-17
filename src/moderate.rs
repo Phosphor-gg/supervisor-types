@@ -34,6 +34,8 @@ pub struct ModerationResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub implicit_labels: Option<Vec<ModerationLabel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub model_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub needs_context: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context_labels: Option<Vec<ModerationLabel>>,
@@ -203,13 +205,26 @@ impl ModerationModel {
         matches!(self, ModerationModel::Auto)
     }
 
-    pub fn to_name(&self) -> &str {
+    pub fn version(&self) -> &str {
+        match self {
+            ModerationModel::Auto => "2.0",
+            ModerationModel::Observer => "2.0",
+            ModerationModel::Sentinel => "2.0",
+            ModerationModel::Arbiter => "2.0",
+        }
+    }
+
+    pub fn base_name(&self) -> &str {
         match self {
             ModerationModel::Auto => "Auto",
             ModerationModel::Observer => "Observer",
             ModerationModel::Sentinel => "Sentinel",
             ModerationModel::Arbiter => "Arbiter",
         }
+    }
+
+    pub fn to_name(&self) -> String {
+        format!("{} {}", self.base_name(), self.version())
     }
 
     pub fn credits_per_byte(&self) -> i64 {
