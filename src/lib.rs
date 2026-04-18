@@ -5,6 +5,7 @@ pub mod discord;
 pub mod error;
 pub mod moderate;
 pub mod notifications;
+pub mod partner;
 pub mod pricing;
 pub mod telegram;
 pub mod user;
