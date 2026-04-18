@@ -174,12 +174,6 @@ pub enum OAuthProviderType {
     GitHub,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AuthState {
-    pub is_authenticated: bool,
-    pub user: Option<UserInfo>,
-    pub jwt_token: Option<String>,
-}
 
 impl OAuthProviderType {
     pub fn as_str(&self) -> &'static str {
