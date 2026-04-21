@@ -415,7 +415,7 @@ impl Tier {
             _ => vec![
                 "Access to Observer Model",
                 "Discord Bot and Rest API Access",
-                "1 Million Credits/Month",
+                "1.5 Million Credits/Month",
             ],
         }
     }
