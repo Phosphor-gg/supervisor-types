@@ -5,7 +5,7 @@ use crate::pricing::{BillingCycle, Tier};
 // Registration
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerRegistrationRequest {
+pub struct PlatformRegistrationRequest {
     pub name: String,
     pub redirect_uri: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -21,8 +21,8 @@ pub struct PartnerRegistrationRequest {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerRegistrationResponse {
-    pub partner_id: String,
+pub struct PlatformRegistrationResponse {
+    pub platform_id: String,
     pub client_id: String,
     pub client_secret: String,
     pub stripe_onboarding_url: Option<String>,
@@ -31,14 +31,14 @@ pub struct PartnerRegistrationResponse {
 // Token exchange (OAuth2 client_credentials)
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerTokenRequest {
+pub struct PlatformTokenRequest {
     pub client_id: String,
     pub client_secret: String,
     pub grant_type: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerTokenResponse {
+pub struct PlatformTokenResponse {
     pub access_token: String,
     pub token_type: String,
     pub expires_in: u64,
@@ -62,7 +62,7 @@ pub struct ProvisionUserResponse {
 // Checkout
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerCheckoutRequest {
+pub struct PlatformCheckoutRequest {
     pub user_email: String,
     pub tier: Tier,
     pub billing_cycle: BillingCycle,
@@ -71,14 +71,14 @@ pub struct PartnerCheckoutRequest {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerCheckoutResponse {
+pub struct PlatformCheckoutResponse {
     pub checkout_url: String,
 }
 
 // User info
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerUserInfo {
+pub struct PlatformUserInfo {
     pub user_id: String,
     pub email: String,
     pub linked_at: String,
@@ -99,7 +99,7 @@ pub struct StripeConnectStatusResponse {
 // Delegated moderation
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PartnerModerationRequest {
+pub struct PlatformModerationRequest {
     pub user_email: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
@@ -116,9 +116,9 @@ pub struct PartnerModerationRequest {
 // Consent / Authorization
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AuthorizePartnerPageData {
-    pub partner_id: String,
-    pub partner_name: String,
+pub struct AuthorizePlatformPageData {
+    pub platform_id: String,
+    pub platform_name: String,
     pub logo_url: Option<String>,
     pub description: Option<String>,
     pub theme_primary_color: Option<String>,
@@ -127,7 +127,7 @@ pub struct AuthorizePartnerPageData {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AuthorizePartnerResponse {
+pub struct AuthorizePlatformResponse {
     pub redirect_url: String,
 }
 
@@ -146,8 +146,8 @@ pub struct ConfirmAuthorizationResponse {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuthorizedAppInfo {
-    pub partner_id: String,
-    pub partner_name: String,
+    pub platform_id: String,
+    pub platform_name: String,
     pub logo_url: Option<String>,
     pub authorized_at: Option<String>,
 }
