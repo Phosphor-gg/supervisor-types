@@ -251,6 +251,8 @@ pub struct PricingData {
     pub billing_cycles: Vec<BillingCycleInfo>,
     #[serde(default)]
     pub flash_sale: Option<FlashSaleInfo>,
+    #[serde(default)]
+    pub free_tier_credits: Option<i64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
