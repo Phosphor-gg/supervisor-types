@@ -3,6 +3,23 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fmt::Display;
 
+/// Credits per 1 GBP. Based on £2.00 = 1,500,000 credits.
+pub const CREDITS_PER_GBP: f64 = 750_000.0;
+
+pub fn credits_to_gbp(credits: i64) -> f64 {
+    credits as f64 / CREDITS_PER_GBP
+}
+
+pub fn format_credits_as_gbp(credits: i64) -> String {
+    let gbp = credits_to_gbp(credits);
+    let rounded_pence = (gbp * 100.0).round();
+    if rounded_pence == rounded_pence.floor() && gbp >= 1.0 && (rounded_pence % 100.0) == 0.0 {
+        format!("£{:.0}", gbp)
+    } else {
+        format!("£{:.2}", gbp)
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreditBalance {
     pub used_current_period: i64,
@@ -204,7 +221,9 @@ impl FormattedPrice {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TierPricing {
     pub tier: Tier,
-    pub prices: HashMap<BillingCycle, FormattedPrice>, // billing_cycle -> price
+    pub prices: HashMap<BillingCycle, FormattedPrice>,
+    #[serde(default)]
+    pub monthly_credits: Option<i64>,
 }
 
 impl TierPricing {
@@ -397,25 +416,21 @@ impl Tier {
                 "Access to Observer Model",
                 "Discord Bot and Rest API Access",
                 "Context Awareness",
-                "10 Million Credits/Month",
             ],
             Tier::Standard => vec![
                 "Everything in Basic",
                 "Access to Sentinel Model",
                 "Image Moderation",
                 "Custom Bot Appearance",
-                "30 Million Credits/Month",
             ],
             Tier::Premium => vec![
                 "Everything in Standard",
                 "Access to Arbiter Model",
                 "Video Moderation",
-                "90 Million Credits/Month",
             ],
             _ => vec![
                 "Access to Observer Model",
                 "Discord Bot and Rest API Access",
-                "1.5 Million Credits/Month",
             ],
         }
     }
