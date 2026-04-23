@@ -8,5 +8,4 @@ pub mod moderate;
 pub mod notifications;
 pub mod platform;
 pub mod pricing;
-pub mod telegram;
 pub mod user;
