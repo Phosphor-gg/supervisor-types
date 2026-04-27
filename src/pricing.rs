@@ -224,6 +224,8 @@ pub struct TierPricing {
     pub prices: HashMap<BillingCycle, FormattedPrice>,
     #[serde(default)]
     pub monthly_credits: Option<i64>,
+    #[serde(default)]
+    pub feature_names: Vec<String>,
 }
 
 impl TierPricing {
@@ -231,8 +233,12 @@ impl TierPricing {
         self.tier.get_description().to_string()
     }
 
-    pub fn features(&self) -> Vec<&'static str> {
-        self.tier.get_features()
+    pub fn features(&self) -> Vec<String> {
+        if !self.feature_names.is_empty() {
+            self.feature_names.clone()
+        } else {
+            self.tier.get_features().into_iter().map(String::from).collect()
+        }
     }
 }
 
