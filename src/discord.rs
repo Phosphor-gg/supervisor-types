@@ -182,8 +182,15 @@ pub struct GuildConfig {
     pub enable_verification: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub verified_role_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub verify_channel_id: Option<String>,
     #[serde(default)]
     pub enable_username_check: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SendVerifyMessageRequest {
+    pub channel_id: String,
 }
 
 fn default_true() -> bool {
@@ -297,6 +304,7 @@ impl Default for GuildConfig {
             custom_link_filters: Vec::new(),
             enable_verification: false,
             verified_role_id: None,
+            verify_channel_id: None,
             enable_username_check: false,
         }
     }
