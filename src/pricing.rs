@@ -120,6 +120,10 @@ pub struct CreditsInfoResponse {
     pub discount_available: bool,
     #[serde(default)]
     pub discount_expires_at: Option<String>,
+    /// Percentage value of the personal discount (e.g. 10 means 10% off).
+    /// Only meaningful when `discount_available` is true.
+    #[serde(default)]
+    pub discount_percentage: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
