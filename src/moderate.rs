@@ -19,7 +19,10 @@ pub struct ModerationRequest {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchModerationRequest {
+    #[serde(default)]
     pub texts: Vec<String>,
+    #[serde(default)]
+    pub images: Vec<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<ModerationModel>,
     #[serde(skip_serializing_if = "Option::is_none")]
