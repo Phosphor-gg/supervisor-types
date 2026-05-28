@@ -15,6 +15,8 @@ pub struct ModerationRequest {
     pub enabled_labels: Option<Vec<ModerationLabel>>,
     #[serde(default)]
     pub include_context: bool,
+    #[serde(default)]
+    pub include_implicit: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -29,6 +31,8 @@ pub struct BatchModerationRequest {
     pub enabled_labels: Option<Vec<ModerationLabel>>,
     #[serde(default)]
     pub include_context: bool,
+    #[serde(default)]
+    pub include_implicit: bool,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerationResponse {
