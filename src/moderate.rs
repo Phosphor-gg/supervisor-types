@@ -101,8 +101,6 @@ pub enum ModerationLabel {
     SI,
     #[serde(rename = "illegal", alias = "IL")]
     IL,
-    #[serde(rename = "personal-data", alias = "PD")]
-    PD,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -144,7 +142,6 @@ impl Display for ModerationLabel {
             ModerationLabel::PM => write!(f, "PM"),
             ModerationLabel::SI => write!(f, "SI"),
             ModerationLabel::IL => write!(f, "IL"),
-            ModerationLabel::PD => write!(f, "PD"),
         }
     }
 }
@@ -170,7 +167,6 @@ impl FromStr for ModerationLabel {
             "PM" => Ok(ModerationLabel::PM),
             "SI" => Ok(ModerationLabel::SI),
             "IL" => Ok(ModerationLabel::IL),
-            "PD" => Ok(ModerationLabel::PD),
             _ => Err(()),
         }
     }
@@ -325,7 +321,6 @@ impl ModerationLabel {
             ModerationLabel::PM => "Promotional",
             ModerationLabel::SI => "Scam/Incoherent",
             ModerationLabel::IL => "Illegal Activity",
-            ModerationLabel::PD => "Personal Data",
         }
     }
 
@@ -347,7 +342,6 @@ impl ModerationLabel {
             ModerationLabel::PM => "PM",
             ModerationLabel::SI => "SI",
             ModerationLabel::IL => "IL",
-            ModerationLabel::PD => "PD",
         }
     }
 
@@ -369,7 +363,6 @@ impl ModerationLabel {
             ModerationLabel::PM,
             ModerationLabel::SI,
             ModerationLabel::IL,
-            ModerationLabel::PD,
         ]
     }
 }
