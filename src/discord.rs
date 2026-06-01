@@ -164,6 +164,8 @@ pub struct GuildConfig {
     pub context_history_count: i32,
     #[serde(default = "default_enable_context")]
     pub enable_context: bool,
+    #[serde(default)]
+    pub enable_implicit_labels: bool,
     #[serde(default = "default_timeout_duration_minutes")]
     pub timeout_duration_minutes: i32,
     #[serde(default = "default_true")]
@@ -295,6 +297,7 @@ impl Default for GuildConfig {
             alerts_channel: None,
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
+            enable_implicit_labels: false,
             timeout_duration_minutes: default_timeout_duration_minutes(),
             enable_link_filter: true,
             block_discord_invites: true,

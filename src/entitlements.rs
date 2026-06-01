@@ -6,6 +6,7 @@ pub enum Entitlement {
     SentinelModel,
     ArbiterModel,
     Context,
+    ImplicitLabels,
     CustomBotAppearance,
     PlatformApi,
 }
@@ -17,6 +18,7 @@ impl Entitlement {
             Self::SentinelModel => "sentinel-model",
             Self::ArbiterModel => "arbiter-model",
             Self::Context => "context",
+            Self::ImplicitLabels => "implicit-labels",
             Self::CustomBotAppearance => "custom-bot-appearance",
             Self::PlatformApi => "platform-api",
         }
@@ -28,6 +30,7 @@ impl Entitlement {
             "sentinel-model" => Some(Self::SentinelModel),
             "arbiter-model" => Some(Self::ArbiterModel),
             "context" => Some(Self::Context),
+            "implicit-labels" => Some(Self::ImplicitLabels),
             "custom-bot-appearance" => Some(Self::CustomBotAppearance),
             "platform-api" => Some(Self::PlatformApi),
             _ => None,
