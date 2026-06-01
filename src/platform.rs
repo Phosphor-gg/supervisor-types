@@ -111,6 +111,8 @@ pub struct PlatformModerationRequest {
     pub enabled_labels: Option<Vec<crate::moderate::ModerationLabel>>,
     #[serde(default)]
     pub include_context: bool,
+    #[serde(default)]
+    pub include_implicit: bool,
 }
 
 // Consent / Authorization
