@@ -6,7 +6,13 @@ pub enum Entitlement {
     SentinelModel,
     ArbiterModel,
     Context,
+    // Stripe feature key: "implicit-moderation" (renamed from the legacy
+    // "implicit-labels" key when image moderation joined the lineup, so both
+    // moderation-feature keys share the "*-moderation" naming).
     ImplicitLabels,
+    // Stripe feature key: "image-moderation". Gates whether image base64 sent
+    // to /moderate or /batch is processed by the OCR + SigLIP pipeline.
+    ImageModeration,
     CustomBotAppearance,
     PlatformApi,
 }
@@ -18,7 +24,8 @@ impl Entitlement {
             Self::SentinelModel => "sentinel-model",
             Self::ArbiterModel => "arbiter-model",
             Self::Context => "context",
-            Self::ImplicitLabels => "implicit-labels",
+            Self::ImplicitLabels => "implicit-moderation",
+            Self::ImageModeration => "image-moderation",
             Self::CustomBotAppearance => "custom-bot-appearance",
             Self::PlatformApi => "platform-api",
         }
@@ -30,7 +37,8 @@ impl Entitlement {
             "sentinel-model" => Some(Self::SentinelModel),
             "arbiter-model" => Some(Self::ArbiterModel),
             "context" => Some(Self::Context),
-            "implicit-labels" => Some(Self::ImplicitLabels),
+            "implicit-moderation" => Some(Self::ImplicitLabels),
+            "image-moderation" => Some(Self::ImageModeration),
             "custom-bot-appearance" => Some(Self::CustomBotAppearance),
             "platform-api" => Some(Self::PlatformApi),
             _ => None,
