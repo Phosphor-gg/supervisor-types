@@ -302,6 +302,13 @@ pub struct UsernameCheckResponse {
     pub score: f64,
 }
 
+/// Response shape of the moderation service's `GET /labels`: a `labels` object
+/// mapping label key to its human-readable description.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LabelsResponse {
+    pub labels: std::collections::HashMap<String, String>,
+}
+
 impl ModerationLabel {
     pub fn to_name(&self) -> &str {
         match self {
