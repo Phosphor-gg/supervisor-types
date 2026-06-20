@@ -81,7 +81,7 @@ pub enum ModerationLabel {
     I,
     #[serde(rename = "sexual", alias = "S")]
     S,
-    #[serde(rename = "sexual/minors", alias = "SU")]
+    #[serde(rename = "sexual/unlawful", alias = "SU", alias = "sexual/minors")]
     SU,
     #[serde(rename = "sexual/explicit", alias = "S2")]
     S2,
