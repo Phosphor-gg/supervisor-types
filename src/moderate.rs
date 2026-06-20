@@ -318,7 +318,7 @@ impl ModerationLabel {
             ModerationLabel::HR => "Hate/Racism",
             ModerationLabel::I => "Insult",
             ModerationLabel::S => "Sexual",
-            ModerationLabel::SU => "Sexual (Severe/Minors)",
+            ModerationLabel::SU => "Sexual (Unlawful)",
             ModerationLabel::S2 => "Sexual (Explicit)",
             ModerationLabel::SE => "Sensitive Content",
             ModerationLabel::V => "Violence",
