@@ -153,3 +153,33 @@ pub struct AuthorizedAppInfo {
     pub logo_url: Option<String>,
     pub authorized_at: Option<String>,
 }
+
+// Dashboard: platform management (platforms the user owns)
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PlatformSummary {
+    pub platform_id: String,
+    pub client_id: String,
+    pub name: String,
+    /// First 12 chars of the secret (`sk_platform_`); the full secret is only
+    /// ever returned once, at creation/regeneration.
+    pub client_secret_prefix: String,
+    pub description: Option<String>,
+    pub logo_url: Option<String>,
+    pub redirect_uri: String,
+    pub webhook_url: Option<String>,
+    pub stripe_onboarding_complete: bool,
+    pub has_stripe_connect: bool,
+    pub is_active: bool,
+    pub created_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RegenerateSecretResponse {
+    pub client_secret: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OnboardingLinkResponse {
+    pub url: String,
+}
