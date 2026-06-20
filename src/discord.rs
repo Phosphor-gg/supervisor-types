@@ -89,6 +89,16 @@ pub struct DiscordModerateRequest {
     pub image: Option<String>,
 }
 
+/// Batch image moderation for a single message: all attached images moderated
+/// in one round-trip. The response is a `Vec<ModerationResponse>` aligned 1:1
+/// with `images`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordBatchModerateRequest {
+    pub guild_info: GuildInfo,
+    /// Base64-encoded images (no data: prefix), one per attachment.
+    pub images: Vec<String>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerationFeedbackRequest {
     pub source: String,
