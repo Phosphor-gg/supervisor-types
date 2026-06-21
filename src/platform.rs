@@ -168,10 +168,25 @@ pub struct PlatformSummary {
     pub logo_url: Option<String>,
     pub redirect_uri: String,
     pub webhook_url: Option<String>,
+    pub theme_primary_color: Option<String>,
+    pub theme_accent_color: Option<String>,
     pub stripe_onboarding_complete: bool,
     pub has_stripe_connect: bool,
     pub is_active: bool,
     pub created_at: String,
+}
+
+/// Editable platform fields (everything except credentials). All fields are
+/// replaced with the supplied values.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PlatformUpdateRequest {
+    pub name: String,
+    pub redirect_uri: String,
+    pub webhook_url: Option<String>,
+    pub logo_url: Option<String>,
+    pub description: Option<String>,
+    pub theme_primary_color: Option<String>,
+    pub theme_accent_color: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
