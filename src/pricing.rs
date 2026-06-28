@@ -434,11 +434,13 @@ impl Tier {
                 "Access to Sentinel Model",
                 "Image Moderation",
                 "Custom Bot Appearance",
+                "Implicit Moderation",
             ],
             Tier::Premium => vec![
                 "Everything in Standard",
                 "Access to Arbiter Model",
                 "Video Moderation (Coming Soon)",
+                "Platform API (Earn Money)"
             ],
             _ => vec![
                 "Access to Observer Model",
