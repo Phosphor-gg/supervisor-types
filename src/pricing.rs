@@ -432,13 +432,13 @@ impl Tier {
             Tier::Standard => vec![
                 "Everything in Basic",
                 "Access to Sentinel Model",
-                "Image Moderation (Coming Soon)",
+                "Image Moderation",
                 "Custom Bot Appearance",
             ],
             Tier::Premium => vec![
                 "Everything in Standard",
                 "Access to Arbiter Model",
-                "Video Moderation",
+                "Video Moderation (Coming Soon)",
             ],
             _ => vec![
                 "Access to Observer Model",
