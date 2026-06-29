@@ -181,6 +181,11 @@ pub struct GuildConfig {
     pub enable_context: bool,
     #[serde(default)]
     pub enable_implicit_labels: bool,
+    // Admin intent for image moderation. Defaults true so entitled guilds get it
+    // on automatically; the effective value is intent && image-moderation
+    // entitlement (forced off for non-entitled guilds at write + at the gate).
+    #[serde(default = "default_true")]
+    pub enable_image_moderation: bool,
     #[serde(default = "default_timeout_duration_minutes")]
     pub timeout_duration_minutes: i32,
     #[serde(default = "default_true")]
@@ -313,6 +318,7 @@ impl Default for GuildConfig {
             context_history_count: default_context_history_count(),
             enable_context: default_enable_context(),
             enable_implicit_labels: false,
+            enable_image_moderation: true,
             timeout_duration_minutes: default_timeout_duration_minutes(),
             enable_link_filter: true,
             block_discord_invites: true,
