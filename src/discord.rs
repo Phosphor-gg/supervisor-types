@@ -333,6 +333,7 @@ impl Default for GuildContext {
         GuildContext {
             guild_config: Default::default(),
             guild_admin_ids: vec![],
+            image_moderation: false,
         }
     }
 }
