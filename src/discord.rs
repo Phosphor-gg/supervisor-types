@@ -141,7 +141,12 @@ pub struct DiscordData {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct GuildContext {
     pub guild_config: GuildConfig,
-    pub guild_admin_ids: Vec<String>
+    pub guild_admin_ids: Vec<String>,
+    /// True iff at least one opted-in guild admin has the image-moderation
+    /// entitlement. Lets the bot skip downloading/forwarding images entirely for
+    /// guilds where no one is entitled (the backend still gates as the authority).
+    #[serde(default)]
+    pub image_moderation: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
