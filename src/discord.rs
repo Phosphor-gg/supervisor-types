@@ -176,9 +176,11 @@ pub struct GuildConfig {
     pub enable_context: bool,
     #[serde(default)]
     pub enable_implicit_labels: bool,
-    // Admin intent for image moderation. Defaults true so entitled guilds get it
-    // on automatically; coerced false at config write for non-entitled guilds,
-    // and the backend moderation routes gate authoritatively per-request.
+    // Admin intent for image moderation, stored raw (never rewritten by
+    // entitlement state). Defaults true so entitled guilds get it on
+    // automatically. The backend demotes the value to false at serve time for
+    // guilds with no entitled billing candidate, and the moderation routes gate
+    // authoritatively per-request.
     #[serde(default = "default_true")]
     pub enable_image_moderation: bool,
     #[serde(default = "default_timeout_duration_minutes")]
