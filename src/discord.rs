@@ -142,11 +142,6 @@ pub struct DiscordData {
 pub struct GuildContext {
     pub guild_config: GuildConfig,
     pub guild_admin_ids: Vec<String>,
-    /// True iff at least one opted-in guild admin has the image-moderation
-    /// entitlement. Lets the bot skip downloading/forwarding images entirely for
-    /// guilds where no one is entitled (the backend still gates as the authority).
-    #[serde(default)]
-    pub image_moderation: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -182,8 +177,8 @@ pub struct GuildConfig {
     #[serde(default)]
     pub enable_implicit_labels: bool,
     // Admin intent for image moderation. Defaults true so entitled guilds get it
-    // on automatically; the effective value is intent && image-moderation
-    // entitlement (forced off for non-entitled guilds at write + at the gate).
+    // on automatically; coerced false at config write for non-entitled guilds,
+    // and the backend moderation routes gate authoritatively per-request.
     #[serde(default = "default_true")]
     pub enable_image_moderation: bool,
     #[serde(default = "default_timeout_duration_minutes")]
@@ -339,7 +334,6 @@ impl Default for GuildContext {
         GuildContext {
             guild_config: Default::default(),
             guild_admin_ids: vec![],
-            image_moderation: false,
         }
     }
 }
