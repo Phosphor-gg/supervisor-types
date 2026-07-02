@@ -178,9 +178,9 @@ pub struct GuildConfig {
     pub enable_implicit_labels: bool,
     // Admin intent for image moderation, stored raw (never rewritten by
     // entitlement state). Defaults true so entitled guilds get it on
-    // automatically. The backend demotes the value to false at serve time for
-    // guilds with no entitled billing candidate, and the moderation routes gate
-    // authoritatively per-request.
+    // automatically. Entitlement is enforced at runtime by the moderation
+    // routes on the resolved billing user, exactly like enable_context and
+    // enable_implicit_labels.
     #[serde(default = "default_true")]
     pub enable_image_moderation: bool,
     #[serde(default = "default_timeout_duration_minutes")]
