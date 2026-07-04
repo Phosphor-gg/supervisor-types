@@ -54,6 +54,10 @@ pub struct StripeSubscriptionInfo {
     pub payment_method_id: Option<String>, // Default payment method ID
     #[serde(default)]
     pub subscription_id: Option<String>,
+    /// Whether this customer owns the Verified lifetime plan, regardless of
+    /// whether a subscription currently outranks it.
+    #[serde(default)]
+    pub lifetime_owned: bool,
     #[serde(default)]
     pub overdraft_enabled: bool,
     #[serde(default)]
@@ -75,6 +79,7 @@ impl StripeSubscriptionInfo {
             currency: None,
             payment_method_id: None,
             subscription_id: None,
+            lifetime_owned: false,
             overdraft_enabled: false,
             overdraft_limit: None,
             overdraft_used: None,
