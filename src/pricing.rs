@@ -265,6 +265,18 @@ pub struct PricingData {
     pub free_tier_credits: Option<i64>,
 }
 
+/// The lifetime (Verified) plan: one-time purchase, no billing cycle.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LifetimePlanInfo {
+    pub product_id: String,
+    pub price_id: String,
+    pub name: String,
+    /// Price in cents
+    pub amount: i64,
+    pub currency: String,
+    pub monthly_credits: i64,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BillingCycleInfo {
     pub cycle: BillingCycle,
@@ -280,6 +292,9 @@ pub enum Tier {
     Basic,
     Standard,
     Premium,
+    /// Lifetime plan: one-time purchase, no billing cycle. Resolved from
+    /// Stripe customer metadata rather than a subscription.
+    Verified,
 }
 
 impl Display for Tier {
@@ -289,6 +304,7 @@ impl Display for Tier {
             Tier::Basic => "Basic",
             Tier::Standard => "Standard",
             Tier::Premium => "Premium",
+            Tier::Verified => "Verified",
         };
         write!(f, "{}", tier_str)
     }
@@ -301,6 +317,7 @@ impl From<String> for Tier {
             "basic" => Tier::Basic,
             "standard" => Tier::Standard,
             "premium" => Tier::Premium,
+            "verified" => Tier::Verified,
             _ => Tier::Free, // Default to Free for invalid values
         }
     }
@@ -313,6 +330,7 @@ impl From<&str> for Tier {
             "basic" => Tier::Basic,
             "standard" => Tier::Standard,
             "premium" => Tier::Premium,
+            "verified" => Tier::Verified,
             _ => Tier::Free, // Default to Free for invalid values
         }
     }
