@@ -81,6 +81,42 @@ pub struct PlatformCheckoutResponse {
     pub checkout_url: String,
 }
 
+// Products a platform can sell to its linked users. Plan payment_link is
+// always None here: platforms must mint links via the checkout endpoints so
+// the revenue share applies.
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformProductsResponse {
+    pub plans: Vec<crate::pricing::PriceInfo>,
+    pub credit_packs: Vec<crate::credits::CreditProductResponse>,
+}
+
+// Credit pack checkout (one-time payment, revenue share on the payment)
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformCreditCheckoutRequest {
+    pub user_email: String,
+    /// price_id of a credit pack from GET /api/platform/products
+    pub price_id: String,
+    pub success_url: String,
+    pub cancel_url: String,
+}
+
+// Credits balance of an authorized linked user
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformUserCreditsResponse {
+    pub user_id: String,
+    pub email: String,
+    /// Total usable credits right now (monthly remaining plus extra)
+    pub balance: i64,
+    pub monthly_allocation: i64,
+    pub used_this_month: i64,
+    pub remaining_this_month: i64,
+    pub extra_credits: i64,
+    pub reset_date: Option<String>,
+}
+
 // Plan change (existing subscription, same Stripe customer)
 
 #[derive(Debug, Serialize, Deserialize)]
