@@ -75,6 +75,22 @@ pub struct PlatformCheckoutResponse {
     pub checkout_url: String,
 }
 
+// Plan change (existing subscription, same Stripe customer)
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformChangePlanRequest {
+    pub user_email: String,
+    pub tier: Tier,
+    pub billing_cycle: BillingCycle,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformChangePlanResponse {
+    pub subscription_id: String,
+    pub tier: Tier,
+    pub billing_cycle: BillingCycle,
+}
+
 // User info
 
 #[derive(Debug, Serialize, Deserialize)]
