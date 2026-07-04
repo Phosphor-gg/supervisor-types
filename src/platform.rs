@@ -89,6 +89,10 @@ pub struct PlatformCheckoutResponse {
 pub struct PlatformProductsResponse {
     pub plans: Vec<crate::pricing::PriceInfo>,
     pub credit_packs: Vec<crate::credits::CreditProductResponse>,
+    /// The lifetime (Verified) plan, when configured. Sold via the normal
+    /// checkout endpoint with tier "verified"; one-time payment.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lifetime: Option<crate::pricing::LifetimePlanInfo>,
 }
 
 // Credit pack checkout (one-time payment, revenue share on the payment)
