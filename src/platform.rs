@@ -18,6 +18,12 @@ pub struct PlatformRegistrationRequest {
     pub theme_primary_color: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub theme_accent_color: Option<String>,
+    /// ISO 3166-1 alpha-2 country for the Stripe Connect payout account.
+    /// Must be a region Stripe supports for cross-border destination-charge
+    /// transfers (US, UK, EEA, CA, CH). Defaults to the platform account's
+    /// country when omitted.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub country: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
