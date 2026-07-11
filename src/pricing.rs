@@ -129,6 +129,12 @@ pub struct CreditsInfoResponse {
     /// Only meaningful when `discount_available` is true.
     #[serde(default)]
     pub discount_percentage: Option<u32>,
+    /// Whether the user has exhausted their current short-window rate limit.
+    #[serde(default)]
+    pub rate_limited: bool,
+    /// When the current rate-limit window resets (RFC3339), if rate limited.
+    #[serde(default)]
+    pub rate_limit_resets_at: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -148,6 +154,10 @@ pub struct CreateCheckoutSessionRequest {
     pub billing_cycle: BillingCycle,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub referral_code: Option<String>,
+    /// Start a free trial instead of an immediate charge (Verified only:
+    /// 3-day trial, card required, converts to the one-time Verified fee).
+    #[serde(default)]
+    pub trial: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
