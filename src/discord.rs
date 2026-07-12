@@ -197,6 +197,16 @@ pub struct GuildConfig {
     pub link_filter_mode: LinkFilterMode,
     #[serde(default)]
     pub custom_link_filters: Vec<String>,
+    /// Custom word filter: block messages containing configured words or
+    /// phrases before AI moderation (blacklist-only counterpart to the
+    /// custom link filters).
+    #[serde(default)]
+    pub enable_word_filter: bool,
+    /// Words/phrases to block. Matched case-insensitively on word
+    /// boundaries; a leading or trailing `*` allows partial matches
+    /// (e.g. `spoiler*`).
+    #[serde(default)]
+    pub custom_word_filters: Vec<String>,
     #[serde(default)]
     pub enable_verification: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -323,6 +333,8 @@ impl Default for GuildConfig {
             block_discord_nitro: false,
             link_filter_mode: default_link_filter_mode(),
             custom_link_filters: Vec::new(),
+            enable_word_filter: false,
+            custom_word_filters: Vec::new(),
             enable_verification: false,
             verified_role_id: None,
             verify_channel_id: None,
