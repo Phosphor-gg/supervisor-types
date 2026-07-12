@@ -48,6 +48,10 @@ pub struct ModerationResponse {
     pub context_labels: Option<Vec<ModerationLabel>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rewritten_text: Option<String>,
+    /// OCR text extracted from an image request (None for text-only).
+    /// Shown on flagged-image alerts and used for image moderation feedback.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extracted_text: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
