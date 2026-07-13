@@ -190,6 +190,11 @@ impl FromStr for ModerationModel {
     }
 }
 
+/// Image bytes are billed at this flat rate regardless of model. Text the
+/// OCR extracts from an image is billed separately at the model's
+/// credits_per_byte once moderation actually runs it through a text model.
+pub const IMAGE_CREDITS_PER_BYTE: i64 = 1;
+
 impl ModerationModel {
     pub fn all_models() -> Vec<ModerationModel> {
         vec![
@@ -240,8 +245,8 @@ impl ModerationModel {
                 panic!("Auto must be resolved before calculating credits")
             }
             ModerationModel::Observer => 1,
-            ModerationModel::Sentinel => 3,
-            ModerationModel::Arbiter => 9,
+            ModerationModel::Sentinel => 2,
+            ModerationModel::Arbiter => 4,
         }
     }
 
