@@ -222,6 +222,62 @@ pub struct SendVerifyMessageRequest {
     pub channel_id: String,
 }
 
+/// Bot "Check Status" button: ask the backend for the operational status of
+/// a user's account and the servers they administrate.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BotStatusRequest {
+    pub user_discord_id: String,
+    pub guilds: Vec<BotStatusGuildQuery>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BotStatusGuildQuery {
+    pub guild_id: String,
+    pub guild_name: String,
+    /// Discord ids of resolved guild admins (bot-side permission check);
+    /// the backend maps these to Supervisor accounts for billing.
+    pub admin_discord_ids: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BotStatusResponse {
+    pub account: BotAccountStatus,
+    pub guilds: Vec<BotGuildStatus>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BotAccountStatus {
+    /// Whether the requesting Discord user has a linked Supervisor account.
+    pub linked: bool,
+    pub remaining_credits: i64,
+    pub monthly_allocation: i64,
+    pub extra_credits: i64,
+    pub rate_limited: bool,
+    /// RFC3339, present when rate_limited.
+    pub rate_limit_resets_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BotGuildStatus {
+    pub guild_id: String,
+    pub guild_name: String,
+    pub active: bool,
+    /// Why moderation is not running, when inactive.
+    pub reason: Option<BotGuildInactiveReason>,
+    /// RFC3339 reset time when the reason is RateLimited.
+    #[serde(default)]
+    pub rate_limit_resets_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BotGuildInactiveReason {
+    ConfigDisabled,
+    NoAdminAccount,
+    NoCredits,
+    RateLimited,
+}
+
 fn default_true() -> bool {
     true
 }
