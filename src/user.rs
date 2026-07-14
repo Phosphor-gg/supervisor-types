@@ -53,6 +53,25 @@ pub struct AccountDeletionCheckResponse {
     pub subscription_status: Option<String>,
 }
 
+/// One item in the onboarding checklist. `complete` is server-derived from
+/// the user's actual state; `dismissed` is a user preference.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OnboardingTodo {
+    pub key: String,
+    pub complete: bool,
+    pub dismissed: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OnboardingResponse {
+    pub todos: Vec<OnboardingTodo>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DismissOnboardingTodoRequest {
+    pub key: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimeSeriesPoint {
     pub date: String,
