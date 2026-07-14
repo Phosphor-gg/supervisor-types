@@ -237,6 +237,9 @@ pub struct BotStatusGuildQuery {
     /// Discord ids of resolved guild admins (bot-side permission check);
     /// the backend maps these to Supervisor accounts for billing.
     pub admin_discord_ids: Vec<String>,
+    /// Guild owner's Discord id: billing eligibility treats the owner
+    /// specially (default opted-in), so status must mirror that.
+    pub owner_discord_id: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
