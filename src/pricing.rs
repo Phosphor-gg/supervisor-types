@@ -135,10 +135,10 @@ pub struct CreditsInfoResponse {
     /// When the current rate-limit window resets (RFC3339), if rate limited.
     #[serde(default)]
     pub rate_limit_resets_at: Option<String>,
-    /// Whether the one-time "add a card, get free credits" reward can still
-    /// be claimed (never claimed, and no paid plan already on file).
+    /// Whether the free 3-day Basic trial can still be started (no paid plan
+    /// and the one-per-account trial hasn't been used yet).
     #[serde(default)]
-    pub card_reward_available: bool,
+    pub trial_available: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
