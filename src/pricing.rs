@@ -158,8 +158,10 @@ pub struct CreateCheckoutSessionRequest {
     pub billing_cycle: BillingCycle,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub referral_code: Option<String>,
-    /// Start a free trial instead of an immediate charge (Verified only:
-    /// 3-day trial, card required, converts to the one-time Verified fee).
+    /// Start a free trial instead of an immediate charge: a 3-day trial of
+    /// the requested plan, card required, converting to that plan's normal
+    /// recurring subscription when it ends. The UI offers this on Basic
+    /// monthly (see the pricing page / trial modal).
     #[serde(default)]
     pub trial: bool,
 }
