@@ -94,6 +94,11 @@ pub struct DiscordUser {
     pub global_name: Option<String>,
     pub avatar: Option<String>,
     pub email: String,
+    /// Whether Discord has verified this email. Default false so a missing
+    /// field is treated as unverified — account matching by email must only
+    /// trust verified emails.
+    #[serde(default)]
+    pub verified: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
