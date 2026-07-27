@@ -219,10 +219,10 @@ impl ModerationModel {
 
     pub fn version(&self) -> &str {
         match self {
-            ModerationModel::Auto => "2.0",
-            ModerationModel::Observer => "2.0",
-            ModerationModel::Sentinel => "2.0",
-            ModerationModel::Arbiter => "2.0",
+            ModerationModel::Auto => "2.1",
+            ModerationModel::Observer => "2.1",
+            ModerationModel::Sentinel => "2.1",
+            ModerationModel::Arbiter => "2.1",
         }
     }
 
