@@ -13,6 +13,9 @@ pub enum Entitlement {
     // Stripe feature key: "image-moderation". Gates whether image base64 sent
     // to /moderate or /batch is processed by the OCR + SigLIP pipeline.
     ImageModeration,
+    // Stripe feature key: "video-moderation". Gates /moderate/video, which
+    // extracts keyframes and runs them through the image pipeline.
+    VideoModeration,
     CustomBotAppearance,
     PlatformApi,
 }
@@ -26,6 +29,7 @@ impl Entitlement {
             Self::Context => "context",
             Self::ImplicitLabels => "implicit-moderation",
             Self::ImageModeration => "image-moderation",
+            Self::VideoModeration => "video-moderation",
             Self::CustomBotAppearance => "custom-bot-appearance",
             Self::PlatformApi => "platform-api",
         }
@@ -39,6 +43,7 @@ impl Entitlement {
             "context" => Some(Self::Context),
             "implicit-moderation" => Some(Self::ImplicitLabels),
             "image-moderation" => Some(Self::ImageModeration),
+            "video-moderation" => Some(Self::VideoModeration),
             "custom-bot-appearance" => Some(Self::CustomBotAppearance),
             "platform-api" => Some(Self::PlatformApi),
             _ => None,

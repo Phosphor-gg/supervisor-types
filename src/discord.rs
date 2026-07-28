@@ -54,6 +54,15 @@ pub struct AdminInfo {
     pub user_info: UserInfo,
     pub subscription_tier: Tier,
     pub has_account: bool,
+    /// Stripe entitlements resolved for this admin.
+    ///
+    /// The dashboard gates feature toggles on these rather than on
+    /// `subscription_tier`, because the moderation routes gate on entitlements
+    /// too. Inferring a feature from a tier duplicates the mapping in a second
+    /// place, and the two disagree the moment a feature is attached to a
+    /// different product or granted to one customer.
+    #[serde(default)]
+    pub entitlements: Vec<crate::entitlements::Entitlement>,
 }
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct AdminConfig {
@@ -97,6 +106,13 @@ pub struct DiscordBatchModerateRequest {
     pub guild_info: GuildInfo,
     /// Base64-encoded images (no data: prefix), one per attachment.
     pub images: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DiscordVideoModerateRequest {
+    pub guild_info: GuildInfo,
+    /// Base64-encoded video (no data: prefix), one attachment per request.
+    pub video: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -183,6 +199,10 @@ pub struct GuildConfig {
     // enable_implicit_labels.
     #[serde(default = "default_true")]
     pub enable_image_moderation: bool,
+    // Separate from images and defaults off: a video costs several frames
+    // where an image costs one, so it is opted into rather than inherited.
+    #[serde(default)]
+    pub enable_video_moderation: bool,
     #[serde(default = "default_timeout_duration_minutes")]
     pub timeout_duration_minutes: i32,
     #[serde(default = "default_true")]
@@ -385,6 +405,7 @@ impl Default for GuildConfig {
             enable_context: default_enable_context(),
             enable_implicit_labels: false,
             enable_image_moderation: true,
+            enable_video_moderation: false,
             timeout_duration_minutes: default_timeout_duration_minutes(),
             enable_link_filter: true,
             block_discord_invites: true,

@@ -64,6 +64,14 @@ pub struct StripeSubscriptionInfo {
     pub overdraft_limit: Option<i64>,
     #[serde(default)]
     pub overdraft_used: Option<i64>,
+    /// Stripe entitlements for this customer.
+    ///
+    /// The dashboard gates features on these rather than on `tier`, matching
+    /// what the API routes actually enforce. Deriving a feature from a tier
+    /// duplicates that mapping, and the two disagree as soon as a feature moves
+    /// product or is granted to a single customer.
+    #[serde(default)]
+    pub entitlements: Vec<crate::entitlements::Entitlement>,
 }
 
 impl StripeSubscriptionInfo {
@@ -83,6 +91,7 @@ impl StripeSubscriptionInfo {
             overdraft_enabled: false,
             overdraft_limit: None,
             overdraft_used: None,
+            entitlements: Vec::new(),
         }
     }
 }

@@ -19,6 +19,47 @@ pub struct ModerationRequest {
     pub include_implicit: bool,
 }
 
+/// A short video to moderate. Keyframes are extracted and run through the same
+/// pipeline as images; there is no video-specific model.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VideoModerationRequest {
+    /// Base64-encoded video, optionally with a `data:video/...;base64,` prefix.
+    pub video: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<ModerationModel>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub enabled_labels: Option<Vec<ModerationLabel>>,
+    #[serde(default)]
+    pub include_implicit: bool,
+}
+
+/// One analysed frame, with the point in the clip it came from so a caller can
+/// seek straight to it.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VideoFrameResult {
+    pub timestamp_ms: i64,
+    pub flagged: bool,
+    pub labels: Vec<ModerationLabel>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extracted_text: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VideoModerationResponse {
+    /// True when any analysed frame was flagged.
+    pub flagged: bool,
+    /// Union of the labels across every analysed frame.
+    pub labels: Vec<ModerationLabel>,
+    pub frames: Vec<VideoFrameResult>,
+    pub frames_analysed: usize,
+    pub duration_secs: f64,
+    /// Container codec as detected, e.g. "h264" or "vp90".
+    pub codec: String,
+    /// Which decoder handled it, "nvdec" or "cpu". Useful for spotting a
+    /// silent fall back to software decode.
+    pub decoder: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchModerationRequest {
     #[serde(default)]
@@ -194,6 +235,58 @@ impl FromStr for ModerationModel {
 /// OCR extracts from an image is billed separately at the model's
 /// credits_per_byte once moderation actually runs it through a text model.
 pub const IMAGE_CREDITS_PER_BYTE: i64 = 1;
+
+/// Video frames are billed below the flat image rate. A clip yields up to
+/// `MAX_VIDEO_FRAMES` frames, so charging each at the image rate would make one
+/// video cost more than a month of the entry plan. Frames are also extracted at
+/// a smaller edge than a standalone image (the vision model sees 224px either
+/// way), so they are both cheaper per byte and fewer bytes.
+pub const VIDEO_FRAME_CREDITS_PER_BYTE_PERCENT: i64 = 25;
+
+/// Batched requests are discounted: one GPU forward covers the whole batch
+/// instead of one per item, and that saving is passed on.
+pub const BATCH_DISCOUNT_PERCENT: i64 = 50;
+
+/// The discount only applies from this batch size up. A batch of one costs
+/// exactly what a single request costs to serve, so discounting it would just
+/// be a 50% price cut that any caller could take by wrapping every request in a
+/// one-item batch.
+pub const MIN_BATCH_SIZE_FOR_DISCOUNT: usize = 2;
+
+/// Hard limits on a single video. Enforced server-side and mirrored in the SDKs
+/// so callers fail before uploading.
+pub const MAX_VIDEO_BYTES: i64 = 10 * 1024 * 1024;
+pub const MAX_VIDEO_DURATION_SECS: f64 = 60.0;
+pub const MAX_VIDEO_FRAMES: usize = 20;
+
+/// Frame extraction contract.
+///
+/// These are not implementation details of one service: the SDKs and the Discord
+/// bot extract frames locally and send them to the batch endpoint, so every
+/// implementation has to agree or the same clip costs and scores differently
+/// depending on which one processed it. Frame size in particular feeds directly
+/// into billing, since frames are charged by byte.
+///
+/// Smaller than a standalone image (1280px) on purpose: the vision model sees
+/// 224px regardless, so beyond ~720px the extra pixels buy only OCR legibility
+/// while costing credits linearly.
+pub const VIDEO_FRAME_MAX_EDGE: u32 = 720;
+pub const VIDEO_FRAME_JPEG_QUALITY: u8 = 80;
+
+/// How often to pull a candidate frame before deduplication, in milliseconds.
+/// Fine enough not to miss a short shot; dedup collapses the redundancy.
+pub const VIDEO_SAMPLE_INTERVAL_MS: u32 = 500;
+
+/// Deduplication thresholds. Two frames are the same shot when their difference
+/// hashes are within `VIDEO_DHASH_THRESHOLD` bits (of 64) *and* every cell of a
+/// 4x4 mean-colour grid is within `VIDEO_COLOR_THRESHOLD` (of 255).
+///
+/// Both conditions are required. Structure alone treats a cut between two flat
+/// differently-coloured scenes as identical, because a difference hash reads
+/// luminance gradients and a flat frame has none. Colour alone merges scenes
+/// that share a palette.
+pub const VIDEO_DHASH_THRESHOLD: u32 = 6;
+pub const VIDEO_COLOR_THRESHOLD: u32 = 24;
 
 impl ModerationModel {
     pub fn all_models() -> Vec<ModerationModel> {
