@@ -139,7 +139,7 @@ pub struct CreditsInfoResponse {
     /// When the current rate-limit window resets (RFC3339), if rate limited.
     #[serde(default)]
     pub rate_limit_resets_at: Option<String>,
-    /// Whether the free 3-day Basic trial can still be started (no paid plan
+    /// Whether the free 3-day Premium trial can still be started (no paid plan
     /// and the one-per-account trial hasn't been used yet).
     #[serde(default)]
     pub trial_available: bool,
@@ -163,9 +163,9 @@ pub struct CreateCheckoutSessionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub referral_code: Option<String>,
     /// Start a free trial instead of an immediate charge: a 3-day trial of
-    /// the requested plan, card required, converting to that plan's normal
-    /// recurring subscription when it ends. The UI offers this on Basic
-    /// monthly (see the pricing page / trial modal).
+    /// Premium, card required, converting to a normal recurring subscription
+    /// on the chosen billing cycle when it ends. Offered on every cycle, and
+    /// only to accounts with no active subscription.
     #[serde(default)]
     pub trial: bool,
 }
@@ -298,16 +298,30 @@ pub struct BillingCycleInfo {
     pub discount_percentage: Option<i32>,
 }
 
+/// Subscription tiers.
+///
+/// Premium is the only plan on sale. `Basic` and `Standard` are deprecated:
+/// they exist solely so the subscriptions still running on them keep
+/// resolving, and are removed once nobody is left on either. `Free` is
+/// likewise closed to new accounts but still held by grandfathered ones.
+///
+/// The deprecation is deliberate noise — every remaining reference becomes a
+/// compiler warning, so the eventual removal is a mechanical sweep rather than
+/// another hunt through the codebase.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Hash, Eq, Copy)]
 #[serde(rename_all = "lowercase")]
 pub enum Tier {
     Free,
+    #[deprecated(note = "Legacy tier, not sold. Remove once no subscribers remain.")]
     Basic,
+    #[deprecated(note = "Legacy tier, not sold. Remove once no subscribers remain.")]
     Standard,
     Premium,
 }
 
 impl Display for Tier {
+    // Legacy tiers still have to render for the subscribers on them.
+    #[allow(deprecated)]
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let tier_str = match self {
             Tier::Free => "Free",
@@ -320,6 +334,8 @@ impl Display for Tier {
 }
 
 impl From<String> for Tier {
+    // Legacy tier names still appear in stored subscription metadata.
+    #[allow(deprecated)]
     fn from(s: String) -> Self {
         match s.to_lowercase().as_str() {
             "free" => Tier::Free,
@@ -332,6 +348,8 @@ impl From<String> for Tier {
 }
 
 impl From<&str> for Tier {
+    // Legacy tier names still appear in stored subscription metadata.
+    #[allow(deprecated)]
     fn from(s: &str) -> Self {
         match s.to_lowercase().as_str() {
             "free" => Tier::Free,
@@ -425,10 +443,15 @@ impl From<&str> for BillingCycle {
 }
 
 impl Tier {
+    /// Every tier that can still be held, sellable or not. Used for ranking and
+    /// for resolving existing subscriptions, never for building a pricing page.
+    #[allow(deprecated)]
     pub fn all_tiers() -> Vec<Tier> {
         vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
     }
 
+    // Legacy subscribers keep earning at their tier's rate.
+    #[allow(deprecated)]
     pub fn get_referral_multiplier(&self) -> f64 {
         match self {
             Tier::Basic => 0.05,     // 5%
@@ -438,15 +461,20 @@ impl Tier {
         }
     }
 
+    #[allow(deprecated)]
     pub fn get_description(&self) -> &str {
         match self {
             Tier::Basic => "For small communities.",
             Tier::Standard => "For growing communities.",
-            Tier::Premium => "For large communities & orgs.",
+            Tier::Premium => "Access to all Premium perks.",
             _ => "Free tier with limited features.",
         }
     }
 
+    /// The feature list shown on a pricing card. Premium's is self-contained
+    /// because it is the only tier ever rendered for sale; the legacy lists
+    /// stay only for a subscriber looking at the plan they are already on.
+    #[allow(deprecated)]
     pub fn get_features(&self) -> Vec<&'static str> {
         match self {
             Tier::Basic => vec![
@@ -462,10 +490,14 @@ impl Tier {
                 "Implicit Moderation",
             ],
             Tier::Premium => vec![
-                "Everything in Standard",
-                "Access to Arbiter Model",
-                "Video Moderation (Coming Soon)",
-                "Platform API (Earn Money)"
+                "Access to Observer, Sentinel and Arbiter Models",
+                "Discord Bot and Rest API Access",
+                "Context Awareness",
+                "Image Moderation",
+                "Video Moderation",
+                "Implicit Moderation",
+                "Custom Bot Appearance",
+                "Platform API (Earn Money)",
             ],
             _ => vec![
                 "Access to Observer Model",
