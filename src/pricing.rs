@@ -164,8 +164,9 @@ pub struct CreateCheckoutSessionRequest {
     pub referral_code: Option<String>,
     /// Start a free trial instead of an immediate charge: a 3-day trial of
     /// Premium, card required, converting to a normal recurring subscription
-    /// on the chosen billing cycle when it ends. Offered on every cycle, and
-    /// only to accounts with no active subscription.
+    /// on the chosen billing cycle when it ends. Only for accounts with no
+    /// active subscription, and only on cycles where
+    /// [`BillingCycle::trial_eligible`] holds.
     #[serde(default)]
     pub trial: bool,
 }
@@ -371,6 +372,42 @@ pub enum BillingCycle {
 }
 
 impl BillingCycle {
+    /// Whether a free trial can be started on this cycle.
+    ///
+    /// Triennial is excluded deliberately: three free days converting into a
+    /// three year commitment is the shape most likely to end in a dispute or a
+    /// chargeback, and the trial exists to de-risk trying Supervisor, not to
+    /// front a long contract.
+    ///
+    /// Lives here rather than in the checkout route because the pricing page
+    /// decides which cards offer a trial and the backend decides whether to
+    /// grant one. If those two disagree, a customer is either shown an offer
+    /// that is refused or charged when they expected a trial.
+    pub fn trial_eligible(&self) -> bool {
+        !matches!(self, BillingCycle::Triennial)
+    }
+
+    /// Months covered by one billing period.
+    ///
+    /// This is the ordering used to tell an upgrade from a downgrade: a longer
+    /// term is an upgrade and prorates immediately, a shorter one is a
+    /// downgrade and takes effect when the paid term ends. Note the money runs
+    /// the other way (a longer term is cheaper per month), so comparing prices
+    /// instead would call shortening a commitment an upgrade and bill for it.
+    pub fn months(&self) -> u32 {
+        match self {
+            BillingCycle::Monthly => 1,
+            BillingCycle::Quarterly => 3,
+            BillingCycle::Annual => 12,
+            BillingCycle::Triennial => 36,
+        }
+    }
+
+    /// Whether moving from `self` to `target` shortens the commitment.
+    pub fn is_downgrade_to(&self, target: BillingCycle) -> bool {
+        target.months() < self.months()
+    }
+
     pub fn period_suffix(&self) -> &str {
         match self {
             BillingCycle::Monthly => "month",
@@ -540,4 +577,31 @@ pub struct InvoiceInfo {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct InvoicesResponse {
     pub invoices: Vec<InvoiceInfo>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn every_cycle_but_triennial_can_be_trialled() {
+        assert!(BillingCycle::Monthly.trial_eligible());
+        assert!(BillingCycle::Quarterly.trial_eligible());
+        assert!(BillingCycle::Annual.trial_eligible());
+        // Three free days should not front a three year commitment.
+        assert!(!BillingCycle::Triennial.trial_eligible());
+    }
+
+    #[test]
+    fn direction_follows_term_length_not_price() {
+        // Triennial is the cheapest per month, so a price comparison would call
+        // this an upgrade. It shortens the commitment, so it is a downgrade.
+        assert!(BillingCycle::Triennial.is_downgrade_to(BillingCycle::Annual));
+        assert!(BillingCycle::Annual.is_downgrade_to(BillingCycle::Monthly));
+
+        assert!(!BillingCycle::Monthly.is_downgrade_to(BillingCycle::Annual));
+        assert!(!BillingCycle::Annual.is_downgrade_to(BillingCycle::Triennial));
+        // Same cycle is not a downgrade.
+        assert!(!BillingCycle::Annual.is_downgrade_to(BillingCycle::Annual));
+    }
 }
