@@ -487,17 +487,6 @@ impl Tier {
         vec![Tier::Free, Tier::Basic, Tier::Standard, Tier::Premium]
     }
 
-    // Legacy subscribers keep earning at their tier's rate.
-    #[allow(deprecated)]
-    pub fn get_referral_multiplier(&self) -> f64 {
-        match self {
-            Tier::Basic => 0.05,     // 5%
-            Tier::Standard => 0.075, // 7.5%
-            Tier::Premium => 0.1125, // 11.25%
-            _ => 0.0,                // Free tier gets no multiplier
-        }
-    }
-
     #[allow(deprecated)]
     pub fn get_description(&self) -> &str {
         match self {
@@ -548,8 +537,11 @@ impl Tier {
 pub struct ReferralStats {
     pub referral_code: String,
     pub total_referrals: usize,
-    pub active_referrals: usize,
-    pub current_multiplier: f64,
+    /// Referrals that have paid out, i.e. the referred user subscribed.
+    pub rewarded_referrals: usize,
+    /// Credits earned from referrals, all time. Render with
+    /// [`format_credits_as_gbp`]; the raw credit figure is never shown.
+    pub total_reward_credits: i64,
     pub referral_breakdown: Vec<ReferralInfo>,
 }
 
@@ -557,9 +549,12 @@ pub struct ReferralStats {
 pub struct ReferralInfo {
     pub user_id: String,
     pub created_at: String,
-    pub tier: Tier,
-    pub is_active: bool,
-    pub multiplier_contribution: f64,
+    /// Credits this referral paid out, or 0 while it is still pending.
+    pub reward_credits: i64,
+    /// Whether the reward has been paid. A referral pays out once, when the
+    /// referred user first subscribes, so this never returns to false even if
+    /// they later cancel.
+    pub rewarded: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
