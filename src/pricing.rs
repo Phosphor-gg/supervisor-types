@@ -3,6 +3,19 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fmt::Display;
 
+/// Length of the free trial, in days.
+///
+/// Shared so the number the pricing page promises is the number Stripe is
+/// told to apply. It was stated in eleven places as a literal, which is how
+/// copy and behaviour drift apart.
+///
+/// Seven rather than three because moderation proves itself by catching
+/// something, and Discord traffic is weekly: a three day trial started on a
+/// Tuesday ends before the weekend, which is exactly when a server is busiest.
+/// It costs nothing extra to give, since a trialist already receives the
+/// plan's whole monthly credit allowance either way.
+pub const TRIAL_PERIOD_DAYS: u32 = 7;
+
 /// Credits per 1 GBP. Based on £2.00 = 1,500,000 credits.
 pub const CREDITS_PER_GBP: f64 = 750_000.0;
 
@@ -139,8 +152,9 @@ pub struct CreditsInfoResponse {
     /// When the current rate-limit window resets (RFC3339), if rate limited.
     #[serde(default)]
     pub rate_limit_resets_at: Option<String>,
-    /// Whether the free 3-day Premium trial can still be started (no paid plan
-    /// and the one-per-account trial hasn't been used yet).
+    /// Whether the free Premium trial can still be started (no paid plan and
+    /// the one-per-account trial hasn't been used yet). Length is
+    /// [`TRIAL_PERIOD_DAYS`].
     #[serde(default)]
     pub trial_available: bool,
 }
@@ -162,10 +176,10 @@ pub struct CreateCheckoutSessionRequest {
     pub billing_cycle: BillingCycle,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub referral_code: Option<String>,
-    /// Start a free trial instead of an immediate charge: a 3-day trial of
-    /// Premium, card required, converting to a normal recurring subscription
-    /// on the chosen billing cycle when it ends. Only for accounts with no
-    /// active subscription, and only on cycles where
+    /// Start a free trial instead of an immediate charge: [`TRIAL_PERIOD_DAYS`]
+    /// of Premium, card required, converting to a normal recurring
+    /// subscription on the chosen billing cycle when it ends. Only for accounts
+    /// with no active subscription, and only on cycles where
     /// [`BillingCycle::trial_eligible`] holds.
     #[serde(default)]
     pub trial: bool,
