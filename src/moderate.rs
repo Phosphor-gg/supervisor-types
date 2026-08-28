@@ -312,10 +312,10 @@ impl ModerationModel {
 
     pub fn version(&self) -> &str {
         match self {
-            ModerationModel::Auto => "2.1",
-            ModerationModel::Observer => "2.1",
-            ModerationModel::Sentinel => "2.1",
-            ModerationModel::Arbiter => "2.1",
+            ModerationModel::Auto => "2.2",
+            ModerationModel::Observer => "2.2",
+            ModerationModel::Sentinel => "2.2",
+            ModerationModel::Arbiter => "2.2",
         }
     }
 
