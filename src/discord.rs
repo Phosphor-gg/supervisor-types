@@ -122,6 +122,27 @@ pub struct ModerationFeedbackRequest {
     pub original_text: String,
 }
 
+/// Re-run a message the guild's model flagged through Arbiter, so a moderator
+/// who downvoted the flag can see what the top model would have said.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ArbiterPreviewRequest {
+    pub guild_info: GuildInfo,
+    pub text: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ArbiterPreviewResponse {
+    /// The model the guild is actually moderating with, after entitlement
+    /// gating and Auto resolution.
+    pub current_model: crate::moderate::ModerationModel,
+    /// Whether the guild's billing user can already use Arbiter, i.e. the fix
+    /// is switching the model rather than upgrading the plan.
+    pub has_arbiter: bool,
+    /// Arbiter's verdict. `None` when the guild already runs Arbiter, since
+    /// there is nothing better to compare against.
+    pub arbiter: Option<crate::moderate::ModerationResponse>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModerationFeedbackIngestResponse {
     pub stored: bool,
