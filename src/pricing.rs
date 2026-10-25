@@ -16,6 +16,18 @@ use std::fmt::Display;
 /// plan's whole monthly credit allowance either way.
 pub const TRIAL_PERIOD_DAYS: u32 = 7;
 
+/// How long the trial is offered after a free account first runs out of
+/// credits. Outside this window the only option is a paid subscription.
+pub const TRIAL_OFFER_HOURS: i64 = 48;
+
+/// Free credits stop working this many days after the first moderated
+/// message, or when the allowance is used up, whichever comes first.
+pub const FREE_WINDOW_DAYS: i64 = 7;
+
+/// The temporary hold placed on a card when a trial starts, to check it, and
+/// released straight away. Disclosed before checkout.
+pub const TRIAL_CARD_CHECK_PENCE: i64 = 100;
+
 /// Credits per 1 GBP. Based on £2.00 = 1,500,000 credits.
 pub const CREDITS_PER_GBP: f64 = 750_000.0;
 
@@ -157,6 +169,19 @@ pub struct CreditsInfoResponse {
     /// [`TRIAL_PERIOD_DAYS`].
     #[serde(default)]
     pub trial_available: bool,
+    /// When the trial offer lapses (RFC3339). The trial is only offered for
+    /// [`TRIAL_OFFER_HOURS`] after the account first runs out of free credits.
+    #[serde(default)]
+    pub trial_offer_expires_at: Option<String>,
+    /// The last trial checkout was cancelled because the card check (a
+    /// temporary hold of [`TRIAL_CARD_CHECK_PENCE`], released straight away)
+    /// was declined.
+    #[serde(default)]
+    pub trial_card_declined: bool,
+    /// When the free credits stop working (RFC3339), counted from the first
+    /// moderated message. Free accounts only.
+    #[serde(default)]
+    pub free_window_ends_at: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
