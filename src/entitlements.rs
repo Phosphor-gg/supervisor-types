@@ -18,6 +18,10 @@ pub enum Entitlement {
     VideoModeration,
     CustomBotAppearance,
     PlatformApi,
+    // Stripe feature key: "advanced-security". Gates the advanced tier of the
+    // Discord security suite (anti-nuke, anti-raid, automod, quarantine,
+    // backups, lockdown, verification); the basic tier of each is free.
+    AdvancedSecurity,
 }
 
 impl Entitlement {
@@ -32,6 +36,7 @@ impl Entitlement {
             Self::VideoModeration => "video-moderation",
             Self::CustomBotAppearance => "custom-bot-appearance",
             Self::PlatformApi => "platform-api",
+            Self::AdvancedSecurity => "advanced-security",
         }
     }
 
@@ -46,6 +51,7 @@ impl Entitlement {
             "video-moderation" => Some(Self::VideoModeration),
             "custom-bot-appearance" => Some(Self::CustomBotAppearance),
             "platform-api" => Some(Self::PlatformApi),
+            "advanced-security" => Some(Self::AdvancedSecurity),
             _ => None,
         }
     }

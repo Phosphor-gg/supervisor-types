@@ -256,6 +256,10 @@ pub struct GuildConfig {
     pub verify_channel_id: Option<String>,
     #[serde(default)]
     pub enable_username_check: bool,
+    /// Anti-nuke, anti-raid, heat, quarantine, lockdown and the rest of the
+    /// security suite. Premium fields are gated by `SecurityConfig::effective`.
+    #[serde(default)]
+    pub security: crate::security::SecurityConfig,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -440,6 +444,7 @@ impl Default for GuildConfig {
             verified_role_id: None,
             verify_channel_id: None,
             enable_username_check: false,
+            security: Default::default(),
         }
     }
 }

@@ -8,4 +8,5 @@ pub mod moderate;
 pub mod notifications;
 pub mod platform;
 pub mod pricing;
+pub mod security;
 pub mod user;
