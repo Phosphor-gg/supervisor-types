@@ -27,8 +27,6 @@ pub enum Punishment {
 pub struct SecurityConfig {
     /// Channel for security events. Falls back to the moderation alerts channel.
     pub log_channel_id: Option<String>,
-    /// Per log type overrides of `log_channel_id`.
-    pub log_channels: HashMap<LogKind, String>,
     /// Role that strips a member's access. Created by `/setup` when absent.
     pub quarantine_role_id: Option<String>,
     /// Users immune to every security system and allowed every security
@@ -260,41 +258,17 @@ pub struct AutoLockdownConfig {
     pub duration_minutes: u32,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
-#[serde(rename_all = "snake_case")]
-pub enum VerificationMode {
-    /// One click on a button in the verify channel.
-    Button,
-    /// Type the code from an image.
-    Captcha,
-    /// Turnstile check on the Supervisor website.
-    Web,
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default)]
+/// Verification is always the Cloudflare check on supervisor.gg; these only
+/// decide who has to pass it and what happens if they do not.
 pub struct VerificationConfig {
-    pub mode: VerificationMode,
     /// Verify only suspicious accounts (young or no avatar); others get the
     /// role on join.
     pub suspicious_only: bool,
     /// Seconds to finish before `fail_action`; 0 waits forever.
     pub time_limit_secs: u64,
     pub fail_action: Punishment,
-    pub captcha_length: u8,
-    /// Premium: captcha image colours and noise.
-    pub captcha_style: CaptchaStyle,
-    /// Premium: replace the captcha every N seconds, 0 disables.
-    pub captcha_regen_secs: u64,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(default)]
-pub struct CaptchaStyle {
-    /// RGB hex without `#`.
-    pub background: String,
-    pub foreground: String,
-    pub noise: u8,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -341,7 +315,6 @@ impl Default for SecurityConfig {
     fn default() -> Self {
         Self {
             log_channel_id: None,
-            log_channels: HashMap::new(),
             quarantine_role_id: None,
             trusted_user_ids: Vec::new(),
             immune_role_ids: Vec::new(),
@@ -493,20 +466,10 @@ impl Default for AutoLockdownConfig {
 impl Default for VerificationConfig {
     fn default() -> Self {
         Self {
-            mode: VerificationMode::Web,
             suspicious_only: false,
             time_limit_secs: 0,
             fail_action: Punishment::Kick,
-            captcha_length: 6,
-            captcha_style: Default::default(),
-            captcha_regen_secs: 0,
         }
-    }
-}
-
-impl Default for CaptchaStyle {
-    fn default() -> Self {
-        Self { background: "f4f1ea".into(), foreground: "2e3a2f".into(), noise: 40 }
     }
 }
 
@@ -554,8 +517,6 @@ impl SecurityConfig {
         c.heat.decay_per_sec = free.heat.decay_per_sec;
         c.heat.multiplier = 1.0;
         c.heat.panic.enabled = false;
-        c.verification.captcha_style = free.verification.captcha_style;
-        c.verification.captcha_regen_secs = 0;
         c.backups.auto = false;
         c
     }
