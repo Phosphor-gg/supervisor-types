@@ -407,8 +407,8 @@ impl Default for JoinRaidConfig {
             window_secs: 60,
             account_type: RaidAccountType::All,
             young_account_days: 7,
-            action: Punishment::Kick,
-            lock_joins: true,
+            action: Punishment::Log,
+            lock_joins: false,
         }
     }
 }
